@@ -1,12 +1,358 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>XZone AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #ffffff;
+      color: #1f1f1f;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app {
+      height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: #f7f7f8;
+      border-right: 1px solid #e5e5e5;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .new-chat {
+      border: 1px solid #ddd;
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .new-chat:hover {
+      background: #eeeeee;
+    }
+
+    .history-title {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+
+    .history {
+      font-size: 14px;
+      color: #444;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .topbar {
+      height: 60px;
+      border-bottom: 1px solid #eeeeee;
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 35px 15%;
+    }
+
+    .welcome {
+      text-align: center;
+      margin-top: 12vh;
+    }
+
+    .welcome h1 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .welcome p {
+      color: #777;
+      font-size: 16px;
+    }
+
+    .message {
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .user {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .ai {
+      background: #f7f7f8;
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    /* Input */
+    .input-area {
+      padding: 15px 15%;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .input-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #d5d5d5;
+      border-radius: 16px;
+      padding: 8px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 15px;
+      padding: 10px;
+      height: 45px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+    }
+
+    .send {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #111;
+      color: white;
+      font-size: 18px;
+    }
+
+    .send:hover {
+      background: #333;
+    }
+
+    .mic {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: transparent;
+      font-size: 18px;
+      margin-right: 5px;
+    }
+
+    .mic:hover {
+      background: #eeeeee;
+    }
+
+    .footer {
+      text-align: center;
+      color: #888;
+      font-size: 11px;
+      padding: 8px;
+    }
+
+    /* Mobile */
+    @media (max-width: 700px) {
+      .sidebar {
+        display: none;
+      }
+
+      .chat {
+        padding: 25px 15px;
+      }
+
+      .input-area {
+        padding: 10px;
+      }
+
+      .welcome h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>🤖 XZone AI</h1>
-  <h2>Welcome to my AI Assistant</h2>
-  <p>AI Chatbot coming soon...</p>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">🤖 XZone AI</div>
+
+      <button class="new-chat" onclick="newChat()">
+        ＋ New Chat
+      </button>
+
+      <div class="history-title">
+        Recent Chats
+      </div>
+
+      <div class="history">
+        Welcome to XZone AI
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="topbar">
+        XZone AI
+      </div>
+
+      <div class="chat" id="chat">
+
+        <div class="welcome" id="welcome">
+          <h1>How can I help you?</h1>
+          <p>Ask anything to XZone AI</p>
+        </div>
+
+      </div>
+
+      <div class="input-area">
+
+        <div class="input-box">
+
+          <button class="mic" onclick="startVoice()">
+            🎤
+          </button>
+
+          <textarea
+            id="message"
+            placeholder="Message XZone AI..."
+            onkeydown="handleKey(event)"
+          ></textarea>
+
+          <button class="send" onclick="sendMessage()">
+            ➤
+          </button>
+
+        </div>
+
+        <div class="footer">
+          XZone AI can make mistakes. Check important information.
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <script>
+
+    function handleKey(event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function sendMessage() {
+
+      const input = document.getElementById("message");
+      const chat = document.getElementById("chat");
+      const welcome = document.getElementById("welcome");
+
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      if (welcome) {
+        welcome.remove();
+      }
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message";
+
+      userMessage.innerHTML =
+        `<div class="user">You</div>
+         <div>${escapeHTML(message)}</div>`;
+
+      chat.appendChild(userMessage);
+
+      input.value = "";
+
+      const aiMessage = document.createElement("div");
+      aiMessage.className = "message";
+
+      aiMessage.innerHTML =
+        `<div class="user">XZone AI</div>
+         <div class="ai">Hello! I'm XZone AI. AI connection will be added in the next step. 🤖</div>`;
+
+      chat.appendChild(aiMessage);
+
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function newChat() {
+      document.getElementById("chat").innerHTML = `
+        <div class="welcome" id="welcome">
+          <h1>How can I help you?</h1>
+          <p>Ask anything to XZone AI</p>
+        </div>
+      `;
+    }
+
+    function startVoice() {
+
+      if (!("webkitSpeechRecognition" in window)) {
+        alert("Voice recognition is not supported in this browser.");
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+
+      recognition.lang = "en-IN";
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        document.getElementById("message").value =
+          event.results[0][0].transcript;
+      };
+    }
+
+    function escapeHTML(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+  </script>
+
 </body>
 </html>
