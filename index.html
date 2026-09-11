@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,6 +122,8 @@
       background: #f7f7f8;
       padding: 14px;
       border-radius: 12px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
     /* Input */
@@ -136,7 +139,7 @@
       border-radius: 16px;
       padding: 8px;
       background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     textarea {
@@ -180,6 +183,11 @@
       background: #eeeeee;
     }
 
+    .mic.listening {
+      background: #eeeeee;
+      transform: scale(1.05);
+    }
+
     .footer {
       text-align: center;
       color: #888;
@@ -189,6 +197,7 @@
 
     /* Mobile */
     @media (max-width: 700px) {
+
       .sidebar {
         display: none;
       }
@@ -212,8 +221,12 @@
 
   <div class="app">
 
+    <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="logo">🤖 XZone AI</div>
+
+      <div class="logo">
+        🤖 XZone AI
+      </div>
 
       <button class="new-chat" onclick="newChat()">
         ＋ New Chat
@@ -226,30 +239,48 @@
       <div class="history">
         Welcome to XZone AI
       </div>
+
     </aside>
 
+
+    <!-- Main -->
     <main class="main">
 
       <div class="topbar">
         XZone AI
       </div>
 
+
       <div class="chat" id="chat">
 
         <div class="welcome" id="welcome">
-          <h1>How can I help you?</h1>
-          <p>Ask anything to XZone AI</p>
+
+          <h1>
+            How can I help you?
+          </h1>
+
+          <p>
+            Ask anything to XZone AI
+          </p>
+
         </div>
 
       </div>
 
+
+      <!-- Input -->
       <div class="input-area">
 
         <div class="input-box">
 
-          <button class="mic" onclick="startVoice()">
+          <button
+            class="mic"
+            id="micButton"
+            onclick="startVoice()"
+            title="Voice input">
             🎤
           </button>
+
 
           <textarea
             id="message"
@@ -257,11 +288,17 @@
             onkeydown="handleKey(event)"
           ></textarea>
 
-          <button class="send" onclick="sendMessage()">
+
+          <button
+            class="send"
+            id="sendButton"
+            onclick="sendMessage()"
+            title="Send">
             ➤
           </button>
 
         </div>
+
 
         <div class="footer">
           XZone AI can make mistakes. Check important information.
@@ -273,133 +310,670 @@
 
   </div>
 
+
   <script>
 
+    /* =========================
+       GLOBAL VARIABLES
+    ========================= */
+
+    let isSending = false;
+    let recognition = null;
+
+
+    /* =========================
+       ENTER KEY
+    ========================= */
+
     function handleKey(event) {
-      if (event.key === "Enter" && !event.shiftKey) {
+
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
+
         event.preventDefault();
+
         sendMessage();
       }
     }
 
-async function sendMessage() {
-  const input = document.getElementById("message");
-  const chat = document.getElementById("chat");
-  const welcome = document.getElementById("welcome");
 
-  const message = input.value.trim();
+    /* =========================
+       SEND MESSAGE
+    ========================= */
 
-  if (!message) return;
+    async function sendMessage() {
 
-  if (welcome) {
-    welcome.remove();
-  }
+      if (isSending) {
+        return;
+      }
 
-  const userMessage = document.createElement("div");
-  userMessage.className = "message";
+      const input = document.getElementById("message");
+      const chat = document.getElementById("chat");
+      const welcome = document.getElementById("welcome");
+      const sendButton = document.getElementById("sendButton");
 
-  userMessage.innerHTML = `
-    <div class="user">You</div>
-    <div>${escapeHTML(message)}</div>
-  `;
+      const message = input.value.trim();
 
-  chat.appendChild(userMessage);
+      if (!message) {
+        return;
+      }
 
-  input.value = "";
 
-  const aiMessage = document.createElement("div");
-  aiMessage.className = "message";
+      /* Remove welcome */
+      if (welcome) {
+        welcome.remove();
+      }
 
-  aiMessage.innerHTML = `
-    <div class="user">XZone AI</div>
-    <div class="ai">Thinking...</div>
-  `;
 
-  chat.appendChild(aiMessage);
-  chat.scrollTop = chat.scrollHeight;
+      /* User message */
+      const userMessage =
+        document.createElement("div");
 
-  try {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: message
-      })
-    });
+      userMessage.className = "message";
 
-    const data = await response.json();
+      userMessage.innerHTML = `
+        <div class="user">You</div>
+        <div>${escapeHTML(message)}</div>
+      `;
 
-    if (!response.ok) {
-      throw new Error(data.error || "Request failed");
+      chat.appendChild(userMessage);
+
+
+      /* Clear input */
+      input.value = "";
+
+
+      /* AI message */
+      const aiMessage =
+        document.createElement("div");
+
+      aiMessage.className = "message";
+
+      aiMessage.innerHTML = `
+        <div class="user">XZone AI</div>
+        <div class="ai">Thinking...</div>
+      `;
+
+      chat.appendChild(aiMessage);
+
+      chat.scrollTop = chat.scrollHeight;
+
+
+      isSending = true;
+
+      if (sendButton) {
+        sendButton.disabled = true;
+        sendButton.style.opacity = "0.5";
+      }
+
+
+      try {
+
+        let data = null;
+        let lastError = null;
+
+
+        /*
+          Try API up to 2 times.
+          This helps with temporary Vercel/API errors.
+        */
+
+        for (let attempt = 1; attempt <= 2; attempt++) {
+
+          try {
+
+            const response = await fetch(
+              "/api/chat",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                  message: message
+                })
+              }
+            );
+
+
+            const responseText =
+              await response.text();
+
+
+            let responseData = null;
+
+            try {
+
+              responseData =
+                JSON.parse(responseText);
+
+            } catch (jsonError) {
+
+              throw new Error(
+                "Server returned an invalid response."
+              );
+            }
+
+
+            if (!response.ok) {
+
+              throw new Error(
+                responseData.error ||
+                "AI request failed."
+              );
+            }
+
+
+            if (
+              !responseData.reply ||
+              typeof responseData.reply !== "string"
+            ) {
+
+              throw new Error(
+                "AI returned an empty response."
+              );
+            }
+
+
+            data = responseData;
+
+            break;
+
+          } catch (error) {
+
+            lastError = error;
+
+            console.error(
+              "API attempt " + attempt + ":",
+              error
+            );
+
+
+            /*
+              Wait before second attempt
+            */
+
+            if (attempt < 2) {
+
+              await sleep(800);
+            }
+          }
+        }
+
+
+        /* If both attempts failed */
+
+        if (!data) {
+
+          throw (
+            lastError ||
+            new Error("Request failed.")
+          );
+        }
+
+
+        /* Show AI reply */
+
+        aiMessage.querySelector(".ai").textContent =
+          data.reply;
+
+
+        /*
+          Speak AI response automatically
+        */
+
+        speakText(data.reply);
+
+
+      } catch (error) {
+
+        console.error(
+          "XZone AI error:",
+          error
+        );
+
+
+        aiMessage.querySelector(".ai").textContent =
+          "Sorry, something went wrong. Please try again.";
+
+      } finally {
+
+        isSending = false;
+
+        if (sendButton) {
+
+          sendButton.disabled = false;
+          sendButton.style.opacity = "1";
+        }
+
+        chat.scrollTop =
+          chat.scrollHeight;
+      }
     }
 
-    aiMessage.querySelector(".ai").textContent =
-      data.reply || "I couldn't generate a response.";
- if (data.reply) {
-  speakText(data.reply);
-} } catch (error) {
-    console.error(error);
 
-    aiMessage.querySelector(".ai").textContent =
-      "Sorry, something went wrong. Please try again.";
-  }
+    /* =========================
+       TEXT TO SPEECH
+    ========================= */
 
-  chat.scrollTop = chat.scrollHeight;
-}
-    
-function speakText(text) {
-  window.speechSynthesis.cancel();
+    function speakText(text) {
 
-  const speech = new SpeechSynthesisUtterance(text);
+      if (
+        !("speechSynthesis" in window)
+      ) {
 
-  speech.rate = 1;
-  speech.pitch = 1;
-  speech.volume = 1;
+        console.log(
+          "Speech synthesis is not supported."
+        );
 
-  if (/[\u0900-\u097F]/.test(text)) {
-    speech.lang = "hi-IN";
-  } else {
-    speech.lang = "en-IN";
-  }
+        return;
+      }
 
-  window.speechSynthesis.speak(speech);
-}
+
+      if (
+        !text ||
+        !text.trim()
+      ) {
+
+        return;
+      }
+
+
+      const synth =
+        window.speechSynthesis;
+
+
+      /*
+        Stop previous voice
+      */
+
+      synth.cancel();
+
+
+      const speech =
+        new SpeechSynthesisUtterance(text);
+
+
+      speech.rate = 1;
+      speech.pitch = 1;
+      speech.volume = 1;
+
+
+      /*
+        Detect Hindi
+      */
+
+      if (
+        /[\u0900-\u097F]/.test(text)
+      ) {
+
+        speech.lang = "hi-IN";
+
+      } else {
+
+        speech.lang = "en-IN";
+      }
+
+
+      /*
+        Select browser voice
+      */
+
+      const voices =
+        synth.getVoices();
+
+
+      let selectedVoice = null;
+
+
+      if (
+        speech.lang === "hi-IN"
+      ) {
+
+        selectedVoice =
+          voices.find(
+            voice =>
+              voice.lang &&
+              voice.lang
+                .toLowerCase()
+                .startsWith("hi")
+          );
+
+      } else {
+
+        selectedVoice =
+          voices.find(
+            voice =>
+              voice.lang &&
+              voice.lang
+                .toLowerCase()
+                .startsWith("en-in")
+          );
+
+
+        /*
+          Fallback to any English voice
+        */
+
+        if (!selectedVoice) {
+
+          selectedVoice =
+            voices.find(
+              voice =>
+                voice.lang &&
+                voice.lang
+                  .toLowerCase()
+                  .startsWith("en")
+            );
+        }
+      }
+
+
+      if (selectedVoice) {
+
+        speech.voice =
+          selectedVoice;
+      }
+
+
+      /*
+        Small delay helps Chrome load speech engine
+      */
+
+      setTimeout(
+        function () {
+
+          try {
+
+            synth.speak(speech);
+
+          } catch (error) {
+
+            console.error(
+              "Voice error:",
+              error
+            );
+          }
+
+        },
+        100
+      );
+    }
+
+
+    /* =========================
+       LOAD VOICES
+    ========================= */
+
+    if (
+      "speechSynthesis" in window
+    ) {
+
+      window.speechSynthesis.onvoiceschanged =
+        function () {
+
+          window.speechSynthesis
+            .getVoices();
+        };
+    }
+
+
+    /* =========================
+       NEW CHAT
+    ========================= */
+
     function newChat() {
-      document.getElementById("chat").innerHTML = `
+
+      /*
+        Stop current AI voice
+      */
+
+      if (
+        "speechSynthesis" in window
+      ) {
+
+        window.speechSynthesis.cancel();
+      }
+
+
+      /*
+        Stop microphone
+      */
+
+      if (recognition) {
+
+        try {
+
+          recognition.stop();
+
+        } catch (error) {
+
+          console.log(error);
+        }
+
+        recognition = null;
+      }
+
+
+      const chat =
+        document.getElementById("chat");
+
+
+      chat.innerHTML = `
         <div class="welcome" id="welcome">
-          <h1>How can I help you?</h1>
-          <p>Ask anything to XZone AI</p>
+
+          <h1>
+            How can I help you?
+          </h1>
+
+          <p>
+            Ask anything to XZone AI
+          </p>
+
         </div>
       `;
     }
 
+
+    /* =========================
+       VOICE INPUT
+    ========================= */
+
     function startVoice() {
 
-      if (!("webkitSpeechRecognition" in window)) {
-        alert("Voice recognition is not supported in this browser.");
+      const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+      if (!SpeechRecognition) {
+
+        alert(
+          "Voice recognition is not supported in this browser. Please use Google Chrome."
+        );
+
         return;
       }
 
-      const recognition = new webkitSpeechRecognition();
+
+      /*
+        If already listening,
+        stop it.
+      */
+
+      if (recognition) {
+
+        try {
+
+          recognition.stop();
+
+        } catch (error) {
+
+          console.log(error);
+        }
+
+        recognition = null;
+
+        return;
+      }
+
+
+      recognition =
+        new SpeechRecognition();
+
+
+      /*
+        Language
+      */
 
       recognition.lang = "en-IN";
-      recognition.start();
 
-      recognition.onresult = function(event) {
-        document.getElementById("message").value =
-          event.results[0][0].transcript;
-      };
+
+      /*
+        Only final result
+      */
+
+      recognition.continuous = false;
+
+      recognition.interimResults = false;
+
+
+      const micButton =
+        document.getElementById("micButton");
+
+
+      /*
+        Listening started
+      */
+
+      recognition.onstart =
+        function () {
+
+          if (micButton) {
+
+            micButton.classList.add(
+              "listening"
+            );
+          }
+        };
+
+
+      /*
+        Voice result
+      */
+
+      recognition.onresult =
+        function (event) {
+
+          const transcript =
+            event.results[0][0].transcript;
+
+
+          const input =
+            document.getElementById("message");
+
+
+          input.value =
+            transcript;
+
+
+          /*
+            Automatically send
+          */
+
+          setTimeout(
+            function () {
+
+              sendMessage();
+
+            },
+            200
+          );
+        };
+
+
+      /*
+        Voice error
+      */
+
+      recognition.onerror =
+        function (event) {
+
+          console.error(
+            "Speech recognition error:",
+            event.error
+          );
+        };
+
+
+      /*
+        Listening stopped
+      */
+
+      recognition.onend =
+        function () {
+
+          if (micButton) {
+
+            micButton.classList.remove(
+              "listening"
+            );
+          }
+
+          recognition = null;
+        };
+
+
+      try {
+
+        recognition.start();
+
+      } catch (error) {
+
+        console.error(
+          "Microphone error:",
+          error
+        );
+
+        recognition = null;
+      }
     }
 
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
     function escapeHTML(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        text;
+
       return div.innerHTML;
+    }
+
+
+    /* =========================
+       SLEEP
+    ========================= */
+
+    function sleep(ms) {
+
+      return new Promise(
+        resolve =>
+          setTimeout(resolve, ms)
+      );
     }
 
   </script>
 
 </body>
+
 </html>
