@@ -337,7 +337,9 @@ async function sendMessage() {
 
     aiMessage.querySelector(".ai").textContent =
       data.reply || "I couldn't generate a response.";
-  } catch (error) {
+ if (data.reply) {
+  speakText(data.reply);
+} } catch (error) {
     console.error(error);
 
     aiMessage.querySelector(".ai").textContent =
@@ -347,7 +349,23 @@ async function sendMessage() {
   chat.scrollTop = chat.scrollHeight;
 }
     
+function speakText(text) {
+  window.speechSynthesis.cancel();
 
+  const speech = new SpeechSynthesisUtterance(text);
+
+  speech.rate = 1;
+  speech.pitch = 1;
+  speech.volume = 1;
+
+  if (/[\u0900-\u097F]/.test(text)) {
+    speech.lang = "hi-IN";
+  } else {
+    speech.lang = "en-IN";
+  }
+
+  window.speechSynthesis.speak(speech);
+}
     function newChat() {
       document.getElementById("chat").innerHTML = `
         <div class="welcome" id="welcome">
