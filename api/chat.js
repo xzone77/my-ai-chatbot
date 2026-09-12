@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  // Only POST requests
+  // Only POST
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed"
@@ -7,26 +7,25 @@ export default async function handler(req, res) {
   }
 
   try {
-    // API key stays on the server
+    // Gemini API key from Vercel Environment Variables
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
+      console.error("GEMINI_API_KEY is missing");
+
       return res.status(500).json({
-        error: "Server configuration error."
+        error: "GEMINI_API_KEY is not configured."
       });
     }
 
-    // Read request body safely
     const { message } = req.body || {};
 
-    // Validate message
     if (typeof message !== "string" || !message.trim()) {
       return res.status(400).json({
         error: "Please enter a message."
       });
     }
 
-    // Limit very large requests
     const userMessage = message.trim();
 
     if (userMessage.length > 10000) {
@@ -35,23 +34,26 @@ export default async function handler(req, res) {
       });
     }
 
-    // Call Gemini
+    // Gemini API
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
       {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
           "x-goog-api-key": apiKey
         },
+
         body: JSON.stringify({
           systemInstruction: {
             parts: [
               {
                 text:
-                  "You are XZone AI, a helpful, respectful and safe AI assistant. " +
-                  "Give clear and accurate answers. Do not provide instructions that could cause serious harm. " +
-                  "Protect user privacy and never ask for passwords, API keys, OTPs or other secret credentials."
+                  "You are XZone AI, a helpful and friendly AI assistant. " +
+                  "Give clear, accurate and useful answers. " +
+                  "Protect user privacy. " +
+                  "Never ask for passwords, API keys, OTPs or other secret credentials."
               }
             ]
           },
@@ -67,45 +69,28 @@ export default async function handler(req, res) {
             }
           ],
 
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE"
-            }
-          ],
-
-generationConfig: {
-  temperature: 0.6,
-  maxOutputTokens: 1024
-}          
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 2048
+          }
         })
       }
     );
 
     const data = await response.json();
 
-    // Gemini API error
+    // Gemini returned an error
     if (!response.ok) {
       console.error("Gemini API error:", data);
 
       return res.status(502).json({
-        error: "AI service is temporarily unavailable."
+        error:
+          data?.error?.message ||
+          "Gemini API request failed."
       });
     }
 
-    // Extract AI response
+    // Get AI response
     const reply =
       data?.candidates?.[0]?.content?.parts
         ?.map((part) => part.text || "")
@@ -113,8 +98,10 @@ generationConfig: {
         .trim() || "";
 
     if (!reply) {
+      console.error("Empty Gemini response:", data);
+
       return res.status(502).json({
-        error: "AI returned an empty response."
+        error: "Gemini returned an empty response."
       });
     }
 
@@ -125,10 +112,12 @@ generationConfig: {
     });
 
   } catch (error) {
-    console.error("Server error:", error);
+    console.error("XZone AI server error:", error);
 
     return res.status(500).json({
-      error: "Something went wrong. Please try again."
+      error:
+        error?.message ||
+        "Something went wrong on the XZone AI server."
     });
   }
 }
