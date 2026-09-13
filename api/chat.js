@@ -1,4 +1,3 @@
-```javascript
 // api/chat.js
 
 export default async function handler(req, res) {
@@ -20,22 +19,29 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.GEMINI_API_KEY;
 
-  
+    if (!apiKey) {
+      console.error("GEMINI_API_KEY is missing");
+
+      return res.status(500).json({
+        error: "Gemini API key is not configured"
+      });
     }
 
     const model = "gemini-2.5-flash";
 
     const url =
-  "https://generativelanguage.googleapis.com/v1beta/models/" +
-  model +
-  ":generateContent";
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      model +
+      ":generateContent";
 
     const response = await fetch(url, {
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
         "x-goog-api-key": apiKey
       },
+
       body: JSON.stringify({
         contents: [
           {
@@ -84,8 +90,10 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    
+    console.error("Server error:", error);
+
+    return res.status(500).json({
+      error: "Something went wrong on the server"
     });
   }
 }
-```
