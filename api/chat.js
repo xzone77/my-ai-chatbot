@@ -1,10 +1,10 @@
 ```javascript
 // api/chat.js
-// Vercel Serverless Function
-// Gemini API key server-side par safe rahegi.
+// XZone AI - Vercel Serverless Function
 
-export default async function handler(req, res) {
-  // Only POST requests
+module.exports = async function handler(req, res) {
+
+  // Only POST
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "Method not allowed"
@@ -12,7 +12,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { message } = req.body || {};
+
+    const message = req.body?.message;
 
     if (!message || typeof message !== "string") {
       return res.status(400).json({
@@ -31,7 +32,8 @@ export default async function handler(req, res) {
     }
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
+      encodeURIComponent(apiKey),
       {
         method: "POST",
 
@@ -61,29 +63,37 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    console.log("Gemini status:", response.status);
-    console.log("Gemini response:", JSON.stringify(data));
+    console.log("Gemini HTTP:", response.status);
 
-    // Gemini API error
     if (!response.ok) {
-      const geminiError =
-        data?.error?.message ||
-        data?.error?.status ||
-        "Unknown Gemini API error";
+
+      console.error(
+        "Gemini API error:",
+        JSON.stringify(data)
+      );
 
       return res.status(502).json({
-        error: geminiError
+        error:
+          data?.error?.message ||
+          data?.error?.status ||
+          "Gemini API request failed"
       });
     }
 
     const reply =
       data?.candidates?.[0]?.content?.parts
-        ?.map(part => part.text || "")
+        ?.map(function (part) {
+          return part.text || "";
+        })
         .join("")
         .trim();
 
     if (!reply) {
-      console.error("No reply from Gemini:", data);
+
+      console.error(
+        "Gemini returned no reply:",
+        JSON.stringify(data)
+      );
 
       return res.status(502).json({
         error: "Gemini returned no text response"
@@ -95,11 +105,17 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("CHAT API ERROR:", error);
+
+    console.error(
+      "XZone API Error:",
+      error
+    );
 
     return res.status(500).json({
-      error: error?.message || "Internal server error"
+      error:
+        error?.message ||
+        "Internal server error"
     });
   }
-}
+};
 ```
