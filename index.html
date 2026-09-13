@@ -106,8 +106,10 @@ async function sendMessage(){
         'Content-Type':'application/json',
         'Accept':'application/json'
       },
-      body:JSON.stringify({message})
-    });
+body:JSON.stringify({
+  message,
+  businessData: bizData
+})    });
 
     const raw=await response.text();
 
