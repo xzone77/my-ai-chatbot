@@ -20,18 +20,15 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.GEMINI_API_KEY;
 
-    if (!apiKey) {
-      return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured"
-      });
+  
     }
 
-    const model = "gemini-3.8-flash";
+    const model = "gemini-2.5-flash";
 
     const url =
-      "https://generativelanguage.googleapis.com/v1beta/models/" +
-      model +
-      ":generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/" +
+  model +
+  ":generateContent";
 
     const response = await fetch(url, {
       method: "POST",
@@ -87,10 +84,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("XZone server error:", error);
-
-    return res.status(500).json({
-      error: error?.message || "Internal server error"
+    
     });
   }
 }
