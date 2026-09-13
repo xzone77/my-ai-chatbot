@@ -64,9 +64,124 @@ function renderMarkdown(text){
   return s;
 }
 async function sendMessage(){
-  if(isSending)return;const input=document.getElementById('message'),chat=document.getElementById('chat'),welcome=document.getElementById('welcome'),send=document.getElementById('sendButton');const message=input?.value.trim();if(!message)return;
-  welcome?.remove();const u=document.createElement('div');u.className='message';u.innerHTML=`<div class="user">You</div><div class="user-text">${escapeHTML(message)}</div>`;chat.appendChild(u);input.value='';const a=document.createElement('div');a.className='message';a.innerHTML='<div class="user ai-label">XZone AI</div><div class="ai">Thinking...</div>';chat.appendChild(a);const box=a.querySelector('.ai');chat.scrollTop=chat.scrollHeight;isSending=true;if(send){send.disabled=true;send.style.opacity='.45'}
-  try{const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({message})});const raw=await response.text();let data;try{data=JSON.parse(raw)}catch{throw new Error('Server returned invalid JSON. HTTP '+response.status)}if(!response.ok)throw new Error(data?.error||`AI request failed (${response.status})`);if(typeof data?.reply!=='string'||!data.reply.trim())throw new Error('AI returned no text response.');box.innerHTML=renderMarkdown(data.reply);try{speakText(data.reply)}catch(e){console.warn('Voice output failed:',e)}}catch(e){console.error('XZone AI error:',e);box.innerHTML=`<p>⚠️ ${escapeHTML(e.message||'Something went wrong.')}</p>`}finally{isSending=false;if(send){send.disabled=false;send.style.opacity='1'}chat.scrollTop=chat.scrollHeight;input.focus()}}
+  if(isSending)return;
+
+  const input=document.getElementById('message');
+  const chat=document.getElementById('chat');
+  const welcome=document.getElementById('welcome');
+  const send=document.getElementById('sendButton');
+
+  if(!input||!chat)return;
+
+  const message=input.value.trim();
+  if(!message)return;
+
+  welcome?.remove();
+
+  const u=document.createElement('div');
+  u.className='message';
+  u.innerHTML=`<div class="user">You</div><div class="user-text">${escapeHTML(message)}</div>`;
+  chat.appendChild(u);
+
+  input.value='';
+
+  const a=document.createElement('div');
+  a.className='message';
+  a.innerHTML='<div class="user ai-label">XZone AI</div><div class="ai">Thinking...</div>';
+  chat.appendChild(a);
+
+  const box=a.querySelector('.ai');
+  chat.scrollTop=chat.scrollHeight;
+
+  isSending=true;
+  if(send){
+    send.disabled=true;
+    send.style.opacity='.45';
+  }
+
+  try{
+    const response=await fetch('/api/chat',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      },
+      body:JSON.stringify({message})
+    });
+
+    const raw=await response.text();
+
+    let data={};
+    try{
+      data=raw?JSON.parse(raw):{};
+    }catch(parseError){
+      console.error('Invalid JSON from /api/chat:',raw);
+      throw new Error(`Server returned invalid JSON (HTTP ${response.status})`);
+    }
+
+    if(!response.ok){
+      let serverError='AI request failed.';
+
+      if(typeof data.error==='string'){
+        serverError=data.error;
+      }else if(data.error && typeof data.error.message==='string'){
+        serverError=data.error.message;
+      }else if(typeof data.message==='string'){
+        serverError=data.message;
+      }else if(data.error){
+        try{
+          serverError=JSON.stringify(data.error);
+        }catch{}
+      }
+
+      throw new Error(serverError);
+    }
+
+    const reply=typeof data.reply==='string'?data.reply.trim():'';
+
+    if(!reply){
+      throw new Error('AI returned no text response.');
+    }
+
+    // Properly format # headings, bullets, bold, code, etc.
+    box.innerHTML=renderMarkdown(reply);
+
+    // Voice failure must never hide a successful text response.
+    try{
+      speakText(reply);
+    }catch(voiceError){
+      console.warn('Voice output failed:',voiceError);
+    }
+
+  }catch(e){
+    console.error('XZone AI error:',e);
+
+    let errorText='Something went wrong.';
+
+    if(e && typeof e.message==='string' && e.message.trim()){
+      errorText=e.message;
+    }else if(typeof e==='string'){
+      errorText=e;
+    }else if(e){
+      try{
+        errorText=JSON.stringify(e);
+      }catch{}
+    }
+
+    box.innerHTML=`<p>⚠️ ${escapeHTML(errorText)}</p>`;
+  }finally{
+    isSending=false;
+
+    if(send){
+      send.disabled=false;
+      send.style.opacity='1';
+    }
+
+    chat.scrollTop=chat.scrollHeight;
+    input.focus();
+  }
+}
+
 function speakText(text){if(!('speechSynthesis'in window)||!text?.trim())return;const s=window.speechSynthesis;s.cancel();const u=new SpeechSynthesisUtterance(text);u.rate=1;u.pitch=1;u.volume=1;u.lang=/[\u0900-\u097F]/.test(text)?'hi-IN':'en-IN';const voices=s.getVoices();u.voice=voices.find(v=>v.lang?.toLowerCase().startsWith(u.lang.toLowerCase()))||voices.find(v=>v.lang?.toLowerCase().startsWith('en'))||null;setTimeout(()=>{try{s.speak(u)}catch(e){console.warn(e)}},100)}
 function newChat(){window.speechSynthesis?.cancel();if(recognition){try{recognition.stop()}catch{}recognition=null}document.getElementById('chat').innerHTML=`<div class="welcome" id="welcome"><div class="welcome-orb"></div><h1>How can I help you?</h1><p>Ask anything to XZone AI</p><div class="suggestions"><button class="suggestion" onclick="useSuggestion('Explain something to me')">Explain something</button><button class="suggestion" onclick="useSuggestion('Help me learn something new')">Learn something</button><button class="suggestion" onclick="useSuggestion('Help me with an idea')">Create an idea</button></div></div>`}
 function startVoice(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Voice recognition is not supported. Please use Google Chrome.');return}if(recognition){try{recognition.stop()}catch{}recognition=null;return}recognition=new SR();recognition.lang='en-IN';recognition.continuous=false;recognition.interimResults=false;const b=document.getElementById('micButton');recognition.onstart=()=>b?.classList.add('listening');recognition.onresult=e=>{document.getElementById('message').value=e.results[0][0].transcript;setTimeout(sendMessage,200)};recognition.onerror=e=>console.error('Speech recognition:',e.error);recognition.onend=()=>{b?.classList.remove('listening');recognition=null};try{recognition.start()}catch(e){console.error(e);recognition=null}}
@@ -99,4 +214,5 @@ async function runBizAI(kind){const out=document.getElementById('bizAIOutput');c
 function exportBizData(){const b=new Blob([JSON.stringify(bizData,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='xzone-business-data.json';a.click();URL.revokeObjectURL(u)}function clearBizData(){if(!confirm('This will delete all business data from this browser. Continue?'))return;bizData={revenues:[],expenses:[],inventory:[],customers:[],sales:[]};saveBizData();renderAllBiz()}
 </script>
 </body></html>
+
 
