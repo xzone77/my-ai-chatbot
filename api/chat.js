@@ -1,123 +1,221 @@
 ```javascript
 // api/chat.js
-// XZone AI - Vercel Serverless Function
+// XZone AI - Vercel Function
+// Gemini API key stays on the server.
 
-export default async function handler(req, res) {
-  try {
-    // Only POST requests
-    if (req.method !== "POST") {
-      return res.status(405).json({
-        error: "Method not allowed"
-      });
-    }
+export default {
+  async fetch(request) {
+    try {
+      // CORS / basic headers
+      const headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store"
+      };
 
-    // Vercel parses JSON body for this handler style
-    const message = req.body?.message;
-
-    if (!message || typeof message !== "string") {
-      return res.status(400).json({
-        error: "Message is required"
-      });
-    }
-
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-      console.error("GEMINI_API_KEY is missing");
-
-      return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured"
-      });
-    }
-
-    // Current Gemini model
-    const model = "gemini-3.8-flash";
-
-    const url =
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-
-    const response = await fetch(url, {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-        "x-goog-api-key": apiKey
-      },
-
-      body: JSON.stringify({
-        contents: [
+      // Only POST
+      if (request.method !== "POST") {
+        return new Response(
+          JSON.stringify({
+            error: "Method not allowed"
+          }),
           {
-            role: "user",
-            parts: [
-              {
-                text: message
-              }
-            ]
+            status: 405,
+            headers
           }
-        ],
+        );
+      }
 
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 1500
-        }
-      })
-    });
+      // Read JSON body
+      let body;
 
-    const data = await response.json();
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(
+          JSON.stringify({
+            error: "Invalid JSON request"
+          }),
+          {
+            status: 400,
+            headers
+          }
+        );
+      }
 
-    console.log("Gemini status:", response.status);
+      const message = body?.message;
 
-    // Gemini returned an error
-    if (!response.ok) {
-      console.error(
-        "Gemini API error:",
-        JSON.stringify(data)
+      if (
+        typeof message !== "string" ||
+        !message.trim()
+      ) {
+        return new Response(
+          JSON.stringify({
+            error: "Message is required"
+          }),
+          {
+            status: 400,
+            headers
+          }
+        );
+      }
+
+      // Read secret from Vercel
+      const apiKey = process.env.GEMINI_API_KEY;
+
+      if (
+        typeof apiKey !== "string" ||
+        !apiKey.trim()
+      ) {
+        console.error("GEMINI_API_KEY is missing");
+
+        return new Response(
+          JSON.stringify({
+            error: "GEMINI_API_KEY is not configured"
+          }),
+          {
+            status: 500,
+            headers
+          }
+        );
+      }
+
+      /*
+        Current stable Gemini Flash model.
+        Gemini 2.0 Flash is shut down, so don't use it.
+      */
+      const model = "gemini-3.8-flash";
+
+      const url =
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+      const geminiResponse = await fetch(url, {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey.trim()
+        },
+
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: message.trim()
+                }
+              ]
+            }
+          ],
+
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 1500
+          }
+        })
+      });
+
+      const geminiText =
+        await geminiResponse.text();
+
+      let geminiData = {};
+
+      try {
+        geminiData =
+          JSON.parse(geminiText);
+      } catch {
+        console.error(
+          "Gemini returned non-JSON:",
+          geminiText
+        );
+      }
+
+      console.log(
+        "Gemini status:",
+        geminiResponse.status
       );
 
-      return res.status(502).json({
-        error:
-          data?.error?.message ||
-          data?.error?.status ||
-          "Gemini API request failed"
-      });
-    }
+      // Gemini API error
+      if (!geminiResponse.ok) {
+        console.error(
+          "Gemini API error:",
+          geminiData
+        );
 
-    // Extract text safely
-    const reply = Array.isArray(
-      data?.candidates?.[0]?.content?.parts
-    )
-      ? data.candidates[0].content.parts
-          .map(part => part?.text || "")
+        const message =
+          geminiData?.error?.message ||
+          geminiData?.error?.status ||
+          "Gemini API request failed";
+
+        return new Response(
+          JSON.stringify({
+            error: message
+          }),
+          {
+            status: 502,
+            headers
+          }
+        );
+      }
+
+      // Extract AI text
+      const reply =
+        geminiData?.candidates?.[0]?.content?.parts
+          ?.map(part => part?.text || "")
           .join("")
-          .trim()
-      : "";
+          .trim();
 
-    if (!reply) {
-      console.error(
-        "Gemini returned no text:",
-        JSON.stringify(data)
+      if (!reply) {
+        console.error(
+          "Gemini returned no text:",
+          JSON.stringify(geminiData)
+        );
+
+        return new Response(
+          JSON.stringify({
+            error: "Gemini returned no text response"
+          }),
+          {
+            status: 502,
+            headers
+          }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({
+          reply: reply
+        }),
+        {
+          status: 200,
+          headers
+        }
       );
 
-      return res.status(502).json({
-        error: "Gemini returned no text response"
-      });
+    } catch (error) {
+      console.error(
+        "XZone server error:",
+        error
+      );
+
+      return new Response(
+        JSON.stringify({
+          error:
+            error?.message ||
+            "Internal server error"
+        }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type":
+              "application/json; charset=utf-8",
+            "Cache-Control":
+              "no-store"
+          }
+        }
+      );
     }
-
-    return res.status(200).json({
-      reply
-    });
-
-  } catch (error) {
-    console.error(
-      "XZone server error:",
-      error
-    );
-
-    return res.status(500).json({
-      error:
-        error?.message ||
-        "Internal server error"
-    });
   }
-}
+};
 ```
+
