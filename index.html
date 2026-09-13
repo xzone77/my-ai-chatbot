@@ -4779,6 +4779,189 @@
     initAuth();
 
   </script>
+<section id="business-analysis" class="business-analysis-section">
+  <div class="business-analysis-container">
+
+```
+<div class="business-analysis-badge">
+  🚀 XZONE BUSINESS INTELLIGENCE
+</div>
+
+<h2>Analyze Your Business.<br>
+  <span>Find Problems. Grow Faster.</span>
+</h2>
+
+<p class="business-analysis-subtitle">
+  XZone AI analyzes your business, finds hidden problems,
+  identifies growth opportunities and gives you a practical action plan.
+</p>
+
+<div class="business-tools-grid">
+
+  <div class="business-tool-card">
+    <div class="business-tool-icon">📊</div>
+    <h3>Business Analysis</h3>
+    <p>
+      Understand sales, expenses, profit, customers and overall
+      business performance.
+    </p>
+  </div>
+
+  <div class="business-tool-card">
+    <div class="business-tool-icon">🔎</div>
+    <h3>Problem Finder</h3>
+    <p>
+      Find major problems affecting sales, profit, customers,
+      marketing and operations.
+    </p>
+  </div>
+
+  <div class="business-tool-card">
+    <div class="business-tool-icon">📈</div>
+    <h3>Growth Advisor</h3>
+    <p>
+      Get AI-powered ideas to increase sales, reduce unnecessary
+      costs and grow your customer base.
+    </p>
+  </div>
+
+  <div class="business-tool-card">
+    <div class="business-tool-icon">🎯</div>
+    <h3>Action Plan</h3>
+    <p>
+      Get a simple 7-day, 30-day and 90-day plan based on your
+      business situation.
+    </p>
+  </div>
+
+</div>
+
+<button class="business-analysis-btn" onclick="openBusinessAnalysis()">
+  Analyze My Business →
+</button>
+```
+
+  </div>
+</section>
+
+<style>
+.business-analysis-section {
+  padding: 100px 20px;
+  position: relative;
+}
+
+.business-analysis-container {
+  max-width: 1150px;
+  margin: auto;
+  text-align: center;
+}
+
+.business-analysis-badge {
+  display: inline-block;
+  padding: 9px 16px;
+  border: 1px solid rgba(124,108,255,.35);
+  border-radius: 999px;
+  color: #a99fff;
+  background: rgba(124,108,255,.08);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 22px;
+}
+
+.business-analysis-container h2 {
+  font-size: clamp(38px, 6vw, 68px);
+  line-height: 1.05;
+  margin: 0;
+  color: var(--text);
+}
+
+.business-analysis-container h2 span {
+  background: linear-gradient(90deg,#7c6cff,#39b8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.business-analysis-subtitle {
+  max-width: 720px;
+  margin: 25px auto 45px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.business-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.business-tool-card {
+  padding: 28px 22px;
+  border-radius: 22px;
+  background: rgba(15,17,25,.75);
+  border: 1px solid rgba(255,255,255,.08);
+  text-align: left;
+  transition: .3s ease;
+}
+
+.business-tool-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(124,108,255,.45);
+}
+
+.business-tool-icon {
+  font-size: 30px;
+  margin-bottom: 18px;
+}
+
+.business-tool-card h3 {
+  color: var(--text);
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.business-tool-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+  margin: 0;
+}
+
+.business-analysis-btn {
+  border: none;
+  padding: 15px 28px;
+  border-radius: 14px;
+  background: linear-gradient(135deg,#7c6cff,#39b8ff);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 35px rgba(124,108,255,.25);
+  transition: .25s;
+}
+
+.business-analysis-btn:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 850px) {
+  .business-tools-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .business-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .business-analysis-section {
+    padding: 70px 16px;
+  }
+}
+</style>
 
 </body>
 </html>
