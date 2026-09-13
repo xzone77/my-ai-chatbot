@@ -2,17 +2,16 @@
 // api/chat.js
 // XZone AI - Vercel Serverless Function
 
-module.exports = async function handler(req, res) {
-
-  // Only POST
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "Method not allowed"
-    });
-  }
-
+export default async function handler(req, res) {
   try {
+    // Only POST requests
+    if (req.method !== "POST") {
+      return res.status(405).json({
+        error: "Method not allowed"
+      });
+    }
 
+    // Vercel parses JSON body for this handler style
     const message = req.body?.message;
 
     if (!message || typeof message !== "string") {
@@ -27,46 +26,49 @@ module.exports = async function handler(req, res) {
       console.error("GEMINI_API_KEY is missing");
 
       return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured in Vercel"
+        error: "GEMINI_API_KEY is not configured"
       });
     }
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
-      encodeURIComponent(apiKey),
-      {
-        method: "POST",
+    // Current Gemini model
+    const model = "gemini-3.8-flash";
 
-        headers: {
-          "Content-Type": "application/json"
-        },
+    const url =
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: message
-                }
-              ]
-            }
-          ],
+    const response = await fetch(url, {
+      method: "POST",
 
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1500
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey
+      },
+
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: message
+              }
+            ]
           }
-        })
-      }
-    );
+        ],
+
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1500
+        }
+      })
+    });
 
     const data = await response.json();
 
-    console.log("Gemini HTTP:", response.status);
+    console.log("Gemini status:", response.status);
 
+    // Gemini returned an error
     if (!response.ok) {
-
       console.error(
         "Gemini API error:",
         JSON.stringify(data)
@@ -80,18 +82,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const reply =
+    // Extract text safely
+    const reply = Array.isArray(
       data?.candidates?.[0]?.content?.parts
-        ?.map(function (part) {
-          return part.text || "";
-        })
-        .join("")
-        .trim();
+    )
+      ? data.candidates[0].content.parts
+          .map(part => part?.text || "")
+          .join("")
+          .trim()
+      : "";
 
     if (!reply) {
-
       console.error(
-        "Gemini returned no reply:",
+        "Gemini returned no text:",
         JSON.stringify(data)
       );
 
@@ -101,13 +104,12 @@ module.exports = async function handler(req, res) {
     }
 
     return res.status(200).json({
-      reply: reply
+      reply
     });
 
   } catch (error) {
-
     console.error(
-      "XZone API Error:",
+      "XZone server error:",
       error
     );
 
@@ -117,5 +119,5 @@ module.exports = async function handler(req, res) {
         "Internal server error"
     });
   }
-};
+}
 ```
