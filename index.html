@@ -1385,6 +1385,561 @@
     }
 
     /* =====================================
+       BUSINESS ANALYSIS — PROMO SECTION
+    ===================================== */
+
+    .business-analysis-container {
+      max-width: 1150px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .business-analysis-badge {
+      display: inline-block;
+
+      padding: 9px 16px;
+
+      border: 1px solid rgba(124,108,255,.35);
+      border-radius: 999px;
+
+      color: #a99fff;
+
+      background: rgba(124,108,255,.08);
+
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+
+      margin-bottom: 22px;
+    }
+
+    .business-analysis-container h2 {
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.1;
+
+      letter-spacing: -1.5px;
+
+      margin: 0;
+
+      color: var(--text);
+    }
+
+    .business-analysis-container h2 span {
+      background:
+        linear-gradient(90deg,
+          #7c6cff,
+          #39b8ff);
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .business-analysis-subtitle {
+      max-width: 720px;
+      margin: 22px auto 40px;
+
+      color: var(--muted);
+
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .business-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 15px;
+
+      margin-bottom: 35px;
+    }
+
+    .business-tool-card {
+      padding: 24px 20px;
+
+      border-radius: 20px;
+
+      background: rgba(255,255,255,.035);
+
+      border: 1px solid rgba(255,255,255,.08);
+
+      text-align: left;
+
+      transition: .25s ease;
+    }
+
+    .business-tool-card:hover {
+      transform: translateY(-6px);
+
+      border-color: rgba(124,108,255,.4);
+    }
+
+    .business-tool-icon {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .business-tool-card h3 {
+      color: var(--text);
+      font-size: 15px;
+      margin: 0 0 8px;
+    }
+
+    .business-tool-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .business-analysis-btn {
+      border: none;
+
+      padding: 15px 26px;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(135deg,
+          #7c6cff,
+          #39b8ff);
+
+      color: white;
+
+      font-size: 15px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 12px 35px rgba(124,108,255,.25);
+
+      transition: .25s;
+    }
+
+    .business-analysis-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    @media(max-width:850px) {
+
+      .business-tools-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+    }
+
+    @media(max-width:550px) {
+
+      .business-tools-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    /* =====================================
+       BUSINESS ANALYSIS — MODAL / DASHBOARD
+    ===================================== */
+
+    .biz-overlay {
+      position: fixed;
+      inset: 0;
+
+      z-index: 9999;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 18px;
+
+      background: rgba(0,0,0,.72);
+
+      backdrop-filter: blur(16px);
+    }
+
+    .biz-overlay.show {
+      display: flex;
+    }
+
+    .biz-card {
+      width: min(920px,100%);
+      max-height: 88vh;
+
+      display: flex;
+      flex-direction: column;
+
+      position: relative;
+
+      border-radius: 25px;
+
+      background:
+        linear-gradient(145deg,
+          rgba(31,33,47,.98),
+          rgba(9,10,16,.99));
+
+      border: 1px solid rgba(255,255,255,.11);
+
+      box-shadow:
+        0 40px 80px rgba(0,0,0,.6);
+
+      overflow: hidden;
+    }
+
+    .biz-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 22px 26px 14px;
+
+      flex-shrink: 0;
+    }
+
+    .biz-card-head h2 {
+      font-size: 21px;
+    }
+
+    .biz-card-head p {
+      color: #858b9e;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .biz-close {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+
+      border-radius: 10px;
+
+      color: #bfc4d5;
+
+      background:
+        linear-gradient(145deg,
+          #292c39,
+          #101117);
+
+      font-size: 21px;
+    }
+
+    .biz-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+
+      padding: 0 26px 14px;
+
+      flex-shrink: 0;
+
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .biz-tab-btn {
+      padding: 8px 13px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #9298ad;
+
+      background: transparent;
+    }
+
+    .biz-tab-btn:hover {
+      color: #d5d8e5;
+      background: rgba(255,255,255,.04);
+    }
+
+    .biz-tab-btn.active {
+      color: white;
+
+      background:
+        linear-gradient(145deg,
+          #756aff,
+          #4337a0);
+    }
+
+    .biz-body {
+      flex: 1;
+      overflow-y: auto;
+
+      padding: 20px 26px 26px;
+    }
+
+    .biz-tab-panel.hidden {
+      display: none;
+    }
+
+    .biz-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+
+      margin-bottom: 22px;
+    }
+
+    .biz-stat-card {
+      padding: 16px;
+
+      border-radius: 15px;
+
+      background: rgba(255,255,255,.035);
+
+      border: 1px solid rgba(255,255,255,.07);
+    }
+
+    .biz-stat-card span {
+      display: block;
+
+      color: #777d91;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+
+      margin-bottom: 6px;
+    }
+
+    .biz-stat-card strong {
+      font-size: 19px;
+
+      color: var(--text);
+    }
+
+    .biz-stat-card.warn strong {
+      color: #ffb454;
+    }
+
+    .biz-section-title {
+      font-size: 13px;
+      font-weight: 700;
+
+      color: #c2c6d5;
+
+      margin: 22px 0 10px;
+    }
+
+    .biz-form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      margin-bottom: 14px;
+    }
+
+    .biz-input,
+    .biz-select {
+      flex: 1;
+      min-width: 110px;
+
+      height: 42px;
+
+      padding: 0 12px;
+
+      color: white;
+
+      background: rgba(15,16,24,.95);
+
+      border: 1px solid rgba(255,255,255,.09);
+
+      border-radius: 11px;
+
+      outline: 0;
+
+      font-size: 13px;
+    }
+
+    .biz-input:focus,
+    .biz-select:focus {
+      border-color: rgba(124,108,255,.6);
+    }
+
+    .biz-add-btn {
+      padding: 0 18px;
+      height: 42px;
+
+      border-radius: 11px;
+
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+
+      background:
+        linear-gradient(145deg,
+          #7165ee,
+          #403594);
+
+      white-space: nowrap;
+    }
+
+    .biz-table-wrap {
+      border-radius: 14px;
+
+      border: 1px solid rgba(255,255,255,.07);
+
+      overflow: hidden;
+
+      margin-bottom: 8px;
+    }
+
+    .biz-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      font-size: 12px;
+    }
+
+    .biz-table th {
+      text-align: left;
+
+      padding: 10px 12px;
+
+      color: #777d91;
+
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+
+      background: rgba(255,255,255,.03);
+    }
+
+    .biz-table td {
+      padding: 10px 12px;
+
+      border-top: 1px solid rgba(255,255,255,.06);
+
+      color: #d5d8e5;
+    }
+
+    .biz-empty-row td {
+      text-align: center;
+      color: #666c7e;
+      padding: 18px;
+    }
+
+    .biz-del-btn {
+      padding: 5px 10px;
+
+      border-radius: 8px;
+
+      font-size: 11px;
+
+      color: #ff8d9b;
+
+      background: rgba(255,90,110,.1);
+
+      border: 1px solid rgba(255,90,110,.2);
+    }
+
+    .biz-low-stock {
+      color: #ffb454 !important;
+      font-weight: 700;
+    }
+
+    .biz-ai-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      margin-bottom: 16px;
+    }
+
+    .biz-ai-btn {
+      padding: 11px 16px;
+
+      border-radius: 12px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: white;
+
+      background:
+        linear-gradient(145deg,
+          #8c80ff,
+          #5146b9);
+    }
+
+    .biz-ai-box {
+      min-height: 140px;
+
+      padding: 18px 20px;
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(145deg,
+          rgba(25,27,38,.88),
+          rgba(12,13,19,.92));
+
+      border: 1px solid rgba(255,255,255,.075);
+
+      color: #e8eaf2;
+
+      font-size: 13px;
+      line-height: 1.7;
+
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .biz-footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      padding: 12px 26px;
+
+      border-top: 1px solid rgba(255,255,255,.07);
+
+      flex-shrink: 0;
+    }
+
+    .biz-footer-actions .biz-note {
+      color: #666c7e;
+      font-size: 10px;
+    }
+
+    .biz-footer-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .biz-ghost-btn {
+      padding: 9px 14px;
+
+      border-radius: 10px;
+
+      font-size: 12px;
+      font-weight: 700;
+
+      color: #d5d8e5;
+
+      background: rgba(255,255,255,.045);
+
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    @media(max-width:700px) {
+
+      .biz-stat-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .biz-input,
+      .biz-select {
+        min-width: 100%;
+      }
+
+    }
+
+    /* =====================================
        CHAT APP
     ===================================== */
 
@@ -2793,6 +3348,118 @@
 
     </section>
 
+
+    <!-- =====================================
+         BUSINESS ANALYSIS
+    ===================================== -->
+
+    <section
+      class="home-section"
+      id="business-analysis">
+
+      <div class="business-analysis-container">
+
+        <div class="business-analysis-badge">
+          🚀 XZONE BUSINESS INTELLIGENCE
+        </div>
+
+        <h2>
+          Analyze Your Business.<br>
+          <span>Find Problems. Grow Faster.</span>
+        </h2>
+
+        <p class="business-analysis-subtitle">
+          XZone AI analyzes your business, finds hidden problems,
+          identifies growth opportunities and gives you a practical
+          action plan — all saved right in your browser.
+        </p>
+
+        <div class="business-tools-grid">
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">🧠</div>
+            <h3>AI Problem Finder</h3>
+            <p>
+              AI scans your revenue, expenses, inventory and sales
+              to surface the issues actually holding you back.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">💰</div>
+            <h3>Revenue &amp; Expenses</h3>
+            <p>
+              Log every rupee coming in and going out, and see
+              your real profit update instantly.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">📦</div>
+            <h3>Inventory Management</h3>
+            <p>
+              Track stock levels, costs and selling prices, and
+              get low-stock alerts before you run out.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">👥</div>
+            <h3>Customer Management</h3>
+            <p>
+              Keep a simple customer list and see who your
+              highest-value customers really are.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">📈</div>
+            <h3>Sales &amp; Profit</h3>
+            <p>
+              Record sales against your inventory and customers,
+              with profit calculated automatically.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">🎯</div>
+            <h3>Growth Opportunities</h3>
+            <p>
+              Get AI-powered suggestions to increase sales, cut
+              unnecessary costs and grow your customer base.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">📝</div>
+            <h3>AI Action Plan</h3>
+            <p>
+              Get a practical 7-day, 30-day and 90-day plan based
+              on your actual business data.
+            </p>
+          </div>
+
+          <div class="business-tool-card">
+            <div class="business-tool-icon">💾</div>
+            <h3>Saved In Your Browser</h3>
+            <p>
+              All your business data stays saved locally in this
+              browser — no account required to get started.
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          class="business-analysis-btn"
+          onclick="openBusinessAnalysis()">
+          Analyze My Business →
+        </button>
+
+      </div>
+
+    </section>
+
   </section>
 
 
@@ -3152,1816 +3819,3449 @@
 
 
   <!-- =====================================
-       MAIN JAVASCRIPT
+       BUSINESS ANALYSIS MODAL
   ===================================== -->
 
-  <script>
+  <div
+    class="biz-overlay"
+    id="businessOverlay"
+    onclick="closeBizOnOutside(event)">
 
-    let isSending = false;
-    let recognition = null;
+    <div
+      class="biz-card"
+      onclick="event.stopPropagation()">
 
+      <div class="biz-card-head">
 
-    /* =====================================
-       PAGE NAVIGATION
-    ===================================== */
-
-    function openChat() {
-
-      document
-        .getElementById("homePage")
-        .classList.add("hidden");
-
-      document
-        .getElementById("app")
-        .classList.remove("hidden");
-
-      setTimeout(() => {
-
-        const input =
-          document.getElementById("message");
-
-        if (input) {
-          input.focus();
-        }
-
-      }, 100);
-    }
-
-
-    function openHome() {
-
-      document
-        .getElementById("app")
-        .classList.add("hidden");
-
-      document
-        .getElementById("homePage")
-        .classList.remove("hidden");
-
-    }
-
-
-    function scrollToSection(id) {
-
-      const element =
-        document.getElementById(id);
-
-      if (element) {
-
-        element.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
-
-    }
-
-
-    function handleKey(event) {
-
-      if (
-        event.key === "Enter" &&
-        !event.shiftKey
-      ) {
-
-        event.preventDefault();
-
-        sendMessage();
-
-      }
-
-    }
-
-
-    function useSuggestion(text) {
-
-      openChat();
-
-      const input =
-        document.getElementById("message");
-
-      if (!input) return;
-
-      input.value = text;
-
-      input.focus();
-
-    }
-
-
-    /* =====================================
-       CHAT
-    ===================================== */
-
-    async function sendMessage() {
-
-      if (isSending) return;
-
-      const input =
-        document.getElementById("message");
-
-      const chat =
-        document.getElementById("chat");
-
-      const welcome =
-        document.getElementById("welcome");
-
-      const sendButton =
-        document.getElementById("sendButton");
-
-      const message =
-        input.value.trim();
-
-      if (!message) return;
-
-
-      if (welcome) {
-        welcome.remove();
-      }
-
-
-      const userMessage =
-        document.createElement("div");
-
-      userMessage.className =
-        "message";
-
-      userMessage.innerHTML = `
-
-        <div class="user">
-          You
+        <div>
+          <h2>📊 Business Analysis</h2>
+          <p>Track your numbers. Find problems. Grow with AI.</p>
         </div>
 
-        <div class="user-text">
-          ${escapeHTML(message)}
-        </div>
-
-      `;
-
-      chat.appendChild(userMessage);
-
-
-      input.value = "";
-
-
-      const aiMessage =
-        document.createElement("div");
-
-      aiMessage.className =
-        "message";
-
-      aiMessage.innerHTML = `
-
-        <div class="user ai-label">
-          XZone AI
-        </div>
-
-        <div class="ai">
-          Thinking...
-        </div>
-
-      `;
-
-      chat.appendChild(aiMessage);
-
-      chat.scrollTop =
-        chat.scrollHeight;
-
-
-      isSending = true;
-
-      if (sendButton) {
-
-        sendButton.disabled = true;
-        sendButton.style.opacity = ".45";
-
-      }
-
-
-      try {
-
-        let data = null;
-        let lastError = null;
-
-
-        for (
-          let attempt = 1;
-          attempt <= 2;
-          attempt++
-        ) {
-
-          try {
-
-            const response =
-              await fetch(
-                "/api/chat",
-                {
-                  method: "POST",
-
-                  headers: {
-                    "Content-Type":
-                      "application/json"
-                  },
-
-                  body:
-                    JSON.stringify({
-                      message: message
-                    })
-                }
-              );
-
-
-            const responseText =
-              await response.text();
-
-
-            let responseData;
-
-            try {
-
-              responseData =
-                JSON.parse(responseText);
-
-            } catch {
-
-              throw new Error(
-                "Server returned an invalid response."
-              );
-
-            }
-
-
-            if (!response.ok) {
-
-              throw new Error(
-                responseData.error ||
-                "AI request failed."
-              );
-
-            }
-
-
-            if (
-              !responseData.reply ||
-              typeof responseData.reply !== "string"
-            ) {
-
-              throw new Error(
-                "AI returned an empty response."
-              );
-
-            }
-
-
-            data = responseData;
-
-            break;
-
-          } catch (error) {
-
-            lastError = error;
-
-            console.error(
-              "API attempt:",
-              attempt,
-              error
-            );
-
-            if (attempt < 2) {
-              await sleep(800);
-            }
-
-          }
-
-        }
-
-
-        if (!data) {
-          throw (
-            lastError ||
-            new Error("Request failed.")
-          );
-        }
-
-
-        aiMessage
-          .querySelector(".ai")
-          .textContent =
-          data.reply;
-
-
-        speakText(data.reply);
-
-
-      } catch (error) {
-
-        console.error(
-          "XZone AI error:",
-          error
-        );
-
-        aiMessage
-          .querySelector(".ai")
-          .textContent =
-          "Sorry, something went wrong. Please try again.";
-
-      } finally {
-
-        isSending = false;
-
-        if (sendButton) {
-
-          sendButton.disabled = false;
-          sendButton.style.opacity = "1";
-
-        }
-
-        chat.scrollTop =
-          chat.scrollHeight;
-
-      }
-
-    }
-
-
-    /* =====================================
-       VOICE OUTPUT
-    ===================================== */
-
-    function speakText(text) {
-
-      if (
-        !("speechSynthesis" in window) ||
-        !text ||
-        !text.trim()
-      ) {
-        return;
-      }
-
-
-      const synth =
-        window.speechSynthesis;
-
-      synth.cancel();
-
-
-      const speech =
-        new SpeechSynthesisUtterance(text);
-
-      speech.rate = 1;
-      speech.pitch = 1;
-      speech.volume = 1;
-
-
-      if (
-        /[\u0900-\u097F]/.test(text)
-      ) {
-
-        speech.lang = "hi-IN";
-
-      } else {
-
-        speech.lang = "en-IN";
-
-      }
-
-
-      const voices =
-        synth.getVoices();
-
-
-      let selectedVoice =
-        voices.find(
-          voice =>
-            voice.lang &&
-            voice.lang
-              .toLowerCase()
-              .startsWith(
-                speech.lang
-                  .toLowerCase()
-              )
-        );
-
-
-      if (!selectedVoice) {
-
-        selectedVoice =
-          voices.find(
-            voice =>
-              voice.lang &&
-              voice.lang
-                .toLowerCase()
-                .startsWith("en")
-          );
-
-      }
-
-
-      if (selectedVoice) {
-        speech.voice =
-          selectedVoice;
-      }
-
-
-      setTimeout(() => {
-
-        try {
-          synth.speak(speech);
-        } catch (error) {
-          console.error(
-            "Voice error:",
-            error
-          );
-        }
-
-      }, 100);
-
-    }
-
-
-    /* =====================================
-       NEW CHAT
-    ===================================== */
-
-    function newChat() {
-
-      if (
-        "speechSynthesis" in window
-      ) {
-
-        window.speechSynthesis.cancel();
-
-      }
-
-
-      if (recognition) {
-
-        try {
-          recognition.stop();
-        } catch {}
-
-        recognition = null;
-
-      }
-
-
-      const chat =
-        document.getElementById("chat");
-
-
-      chat.innerHTML = `
+        <button
+          class="biz-close"
+          onclick="closeBusinessAnalysis()">
+          ×
+        </button>
+
+      </div>
+
+      <div class="biz-tabs">
+
+        <button
+          class="biz-tab-btn active"
+          data-tab="overview"
+          onclick="switchBizTab('overview')">
+          Overview
+        </button>
+
+        <button
+          class="biz-tab-btn"
+          data-tab="finance"
+          onclick="switchBizTab('finance')">
+          Revenue &amp; Expenses
+        </button>
+
+        <button
+          class="biz-tab-btn"
+          data-tab="inventory"
+          onclick="switchBizTab('inventory')">
+          Inventory
+        </button>
+
+        <button
+          class="biz-tab-btn"
+          data-tab="customers"
+          onclick="switchBizTab('customers')">
+          Customers
+        </button>
+
+        <button
+          class="biz-tab-btn"
+          data-tab="sales"
+          onclick="switchBizTab('sales')">
+          Sales
+        </button>
+
+        <button
+          class="biz-tab-btn"
+          data-tab="ai"
+          onclick="switchBizTab('ai')">
+          🧠 AI Insights
+        </button>
+
+      </div>
+
+      <div class="biz-body">
+
+        <!-- OVERVIEW -->
 
         <div
-          class="welcome"
-          id="welcome">
+          class="biz-tab-panel"
+          id="bizTab-overview">
 
-          <div class="welcome-orb"></div>
+          <div class="biz-stat-grid">
 
-          <h1>
-            How can I help you?
-          </h1>
+            <div class="biz-stat-card">
+              <span>Total Revenue</span>
+              <strong id="bizTotalRevenue">₹0</strong>
+            </div>
 
-          <p>
-            Ask anything to XZone AI
-          </p>
+            <div class="biz-stat-card">
+              <span>Total Expenses</span>
+              <strong id="bizTotalExpense">₹0</strong>
+            </div>
 
-          <div class="suggestions">
+            <div class="biz-stat-card">
+              <span>Net Profit</span>
+              <strong id="bizProfit">₹0</strong>
+            </div>
 
-            <button
-              class="suggestion"
-              onclick="useSuggestion('Explain something to me')">
-              Explain something
-            </button>
+            <div class="biz-stat-card">
+              <span>Profit Margin</span>
+              <strong id="bizMargin">0%</strong>
+            </div>
 
-            <button
-              class="suggestion"
-              onclick="useSuggestion('Help me learn something new')">
-              Learn something
-            </button>
+            <div class="biz-stat-card">
+              <span>Customers</span>
+              <strong id="bizCustomerCount">0</strong>
+            </div>
 
-            <button
-              class="suggestion"
-              onclick="useSuggestion('Help me with an idea')">
-              Create an idea
-            </button>
+            <div class="biz-stat-card">
+              <span>Inventory Items</span>
+              <strong id="bizInventoryCount">0</strong>
+            </div>
 
+            <div class="biz-stat-card warn">
+              <span>Low Stock Items</span>
+              <strong id="bizLowStockCount">0</strong>
+            </div>
+
+            <div class="biz-stat-card">
+              <span>Total Sales</span>
+              <strong id="bizSalesCount">0</strong>
+            </div>
+
+          </div>
+
+          <div class="biz-section-title">
+            Recent Activity
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody id="bizRecentActivity"></tbody>
+            </table>
           </div>
 
         </div>
 
-      `;
 
+        <!-- REVENUE & EXPENSES -->
+
+        <div
+          class="biz-tab-panel hidden"
+          id="bizTab-finance">
+
+          <div class="biz-section-title">
+            Add Revenue
+          </div>
+
+          <div class="biz-form-row">
+            <input class="biz-input" id="bizRevDesc" placeholder="Description (e.g. Product sale)">
+            <input class="biz-input" id="bizRevAmount" type="number" placeholder="Amount (₹)">
+            <button class="biz-add-btn" onclick="addRevenue()">+ Add</button>
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bizRevenueList"></tbody>
+            </table>
+          </div>
+
+          <div class="biz-section-title">
+            Add Expense
+          </div>
+
+          <div class="biz-form-row">
+            <input class="biz-input" id="bizExpDesc" placeholder="Description (e.g. Rent, Ads)">
+            <select class="biz-select" id="bizExpCategory">
+              <option value="Rent">Rent</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Salary">Salary</option>
+              <option value="Supplies">Supplies</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Other">Other</option>
+            </select>
+            <input class="biz-input" id="bizExpAmount" type="number" placeholder="Amount (₹)">
+            <button class="biz-add-btn" onclick="addExpense()">+ Add</button>
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bizExpenseList"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <!-- INVENTORY -->
+
+        <div
+          class="biz-tab-panel hidden"
+          id="bizTab-inventory">
+
+          <div class="biz-section-title">
+            Add Inventory Item
+          </div>
+
+          <div class="biz-form-row">
+            <input class="biz-input" id="bizInvName" placeholder="Item name">
+            <input class="biz-input" id="bizInvQty" type="number" placeholder="Quantity">
+            <input class="biz-input" id="bizInvCost" type="number" placeholder="Cost price (₹)">
+            <input class="biz-input" id="bizInvPrice" type="number" placeholder="Selling price (₹)">
+            <input class="biz-input" id="bizInvReorder" type="number" placeholder="Reorder level">
+            <button class="biz-add-btn" onclick="addInventoryItem()">+ Add</button>
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Cost</th>
+                  <th>Price</th>
+                  <th>Reorder At</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bizInventoryList"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <!-- CUSTOMERS -->
+
+        <div
+          class="biz-tab-panel hidden"
+          id="bizTab-customers">
+
+          <div class="biz-section-title">
+            Add Customer
+          </div>
+
+          <div class="biz-form-row">
+            <input class="biz-input" id="bizCustName" placeholder="Customer name">
+            <input class="biz-input" id="bizCustContact" placeholder="Phone / Email">
+            <input class="biz-input" id="bizCustNotes" placeholder="Notes (optional)">
+            <button class="biz-add-btn" onclick="addCustomer()">+ Add</button>
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Total Spent</th>
+                  <th>Notes</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bizCustomerList"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <!-- SALES -->
+
+        <div
+          class="biz-tab-panel hidden"
+          id="bizTab-sales">
+
+          <div class="biz-section-title">
+            Record a Sale
+          </div>
+
+          <div class="biz-form-row">
+            <select class="biz-select" id="bizSaleItem"></select>
+            <select class="biz-select" id="bizSaleCustomer">
+              <option value="">Walk-in customer</option>
+            </select>
+            <input class="biz-input" id="bizSaleQty" type="number" placeholder="Quantity" value="1">
+            <button class="biz-add-btn" onclick="addSale()">+ Record Sale</button>
+          </div>
+
+          <div class="biz-table-wrap">
+            <table class="biz-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Item</th>
+                  <th>Customer</th>
+                  <th>Qty</th>
+                  <th>Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="bizSalesList"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+
+        <!-- AI INSIGHTS -->
+
+        <div
+          class="biz-tab-panel hidden"
+          id="bizTab-ai">
+
+          <div class="biz-section-title">
+            Ask XZone AI About Your Business
+          </div>
+
+          <div class="biz-ai-actions">
+
+            <button
+              class="biz-ai-btn"
+              onclick="runBizAI('problems')">
+              🧠 Find Problems
+            </button>
+
+            <button
+              class="biz-ai-btn"
+              onclick="runBizAI('growth')">
+              🎯 Growth Opportunities
+            </button>
+
+            <button
+              class="biz-ai-btn"
+              onclick="runBizAI('plan')">
+              📝 Generate Action Plan
+            </button>
+
+          </div>
+
+          <div
+            class="biz-ai-box"
+            id="bizAIOutput">
+            Add some revenue, expenses, inventory or sales data,
+            then tap one of the buttons above to get AI-powered
+            insights about your business.
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="biz-footer-actions">
+
+        <span class="biz-note">
+          💾 Saved automatically in this browser.
+        </span>
+
+        <div class="biz-footer-btns">
+
+          <button
+            class="biz-ghost-btn"
+            onclick="exportBizData()">
+            Export Data
+          </button>
+
+          <button
+            class="biz-ghost-btn"
+            onclick="clearBizData()">
+            Clear All Data
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================
+       JAVASCRIPT (external file)
+  ===================================== -->
+  <script>
+/* =====================================
+   MAIN JAVASCRIPT
+===================================== */
+
+let isSending = false;
+let recognition = null;
+
+
+/* =====================================
+   PAGE NAVIGATION
+===================================== */
+
+function openChat() {
+
+  document
+    .getElementById("homePage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+  setTimeout(() => {
+
+    const input =
+      document.getElementById("message");
+
+    if (input) {
+      input.focus();
     }
 
-
-    /* =====================================
-       VOICE INPUT
-    ===================================== */
-
-    function startVoice() {
-
-      const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+  }, 100);
+}
 
 
-      if (!SpeechRecognition) {
+function openHome() {
 
-        alert(
-          "Voice recognition is not supported. Please use Google Chrome."
-        );
+  document
+    .getElementById("app")
+    .classList.add("hidden");
 
-        return;
+  document
+    .getElementById("homePage")
+    .classList.remove("hidden");
 
-      }
-
-
-      if (recognition) {
-
-        try {
-          recognition.stop();
-        } catch {}
-
-        recognition = null;
-
-        return;
-
-      }
+}
 
 
-      recognition =
-        new SpeechRecognition();
+function scrollToSection(id) {
+
+  const element =
+    document.getElementById(id);
+
+  if (element) {
+
+    element.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  }
+
+}
 
 
-      recognition.lang =
-        "en-IN";
+function handleKey(event) {
 
-      recognition.continuous =
-        false;
+  if (
+    event.key === "Enter" &&
+    !event.shiftKey
+  ) {
 
-      recognition.interimResults =
-        false;
+    event.preventDefault();
 
+    sendMessage();
 
-      const micButton =
-        document.getElementById(
-          "micButton"
-        );
+  }
 
-
-      recognition.onstart =
-        function () {
-
-          if (micButton) {
-
-            micButton.classList.add(
-              "listening"
-            );
-
-          }
-
-        };
+}
 
 
-      recognition.onresult =
-        function (event) {
+function useSuggestion(text) {
 
-          const transcript =
-            event.results[0][0]
-              .transcript;
+  openChat();
 
+  const input =
+    document.getElementById("message");
 
-          const input =
-            document.getElementById(
-              "message"
-            );
+  if (!input) return;
 
+  input.value = text;
 
-          input.value =
-            transcript;
+  input.focus();
+
+}
 
 
-          setTimeout(
-            sendMessage,
-            200
-          );
+/* =====================================
+   CHAT
+===================================== */
 
-        };
+async function sendMessage() {
+
+  if (isSending) return;
+
+  const input =
+    document.getElementById("message");
+
+  const chat =
+    document.getElementById("chat");
+
+  const welcome =
+    document.getElementById("welcome");
+
+  const sendButton =
+    document.getElementById("sendButton");
+
+  const message =
+    input.value.trim();
+
+  if (!message) return;
 
 
-      recognition.onerror =
-        function (event) {
-
-          console.error(
-            "Speech recognition error:",
-            event.error
-          );
-
-        };
+  if (welcome) {
+    welcome.remove();
+  }
 
 
-      recognition.onend =
-        function () {
+  const userMessage =
+    document.createElement("div");
 
-          if (micButton) {
+  userMessage.className =
+    "message";
 
-            micButton.classList.remove(
-              "listening"
-            );
+  userMessage.innerHTML = `
 
-          }
+    <div class="user">
+      You
+    </div>
 
-          recognition = null;
+    <div class="user-text">
+      ${escapeHTML(message)}
+    </div>
 
-        };
+  `;
 
+  chat.appendChild(userMessage);
+
+
+  input.value = "";
+
+
+  const aiMessage =
+    document.createElement("div");
+
+  aiMessage.className =
+    "message";
+
+  aiMessage.innerHTML = `
+
+    <div class="user ai-label">
+      XZone AI
+    </div>
+
+    <div class="ai">
+      Thinking...
+    </div>
+
+  `;
+
+  chat.appendChild(aiMessage);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+
+  isSending = true;
+
+  if (sendButton) {
+
+    sendButton.disabled = true;
+    sendButton.style.opacity = ".45";
+
+  }
+
+
+  try {
+
+    let data = null;
+    let lastError = null;
+
+
+    for (
+      let attempt = 1;
+      attempt <= 2;
+      attempt++
+    ) {
 
       try {
 
-        recognition.start();
+        const response =
+          await fetch(
+            "/api/chat",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+                  message: message
+                })
+            }
+          );
+
+
+        const responseText =
+          await response.text();
+
+
+        let responseData;
+
+        try {
+
+          responseData =
+            JSON.parse(responseText);
+
+        } catch {
+
+          throw new Error(
+            "Server returned an invalid response."
+          );
+
+        }
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            responseData.error ||
+            "AI request failed."
+          );
+
+        }
+
+
+        if (
+          !responseData.reply ||
+          typeof responseData.reply !== "string"
+        ) {
+
+          throw new Error(
+            "AI returned an empty response."
+          );
+
+        }
+
+
+        data = responseData;
+
+        break;
 
       } catch (error) {
 
+        lastError = error;
+
         console.error(
-          "Microphone error:",
+          "API attempt:",
+          attempt,
           error
         );
 
-        recognition = null;
+        if (attempt < 2) {
+          await sleep(800);
+        }
 
       }
 
     }
 
 
-    /* =====================================
-       HELPERS
-    ===================================== */
-
-    function escapeHTML(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent = text;
-
-      return div.innerHTML;
-
+    if (!data) {
+      throw (
+        lastError ||
+        new Error("Request failed.")
+      );
     }
 
 
-    function sleep(ms) {
+    aiMessage
+      .querySelector(".ai")
+      .textContent =
+      data.reply;
 
-      return new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            ms
+
+    speakText(data.reply);
+
+
+  } catch (error) {
+
+    console.error(
+      "XZone AI error:",
+      error
+    );
+
+    aiMessage
+      .querySelector(".ai")
+      .textContent =
+      "Sorry, something went wrong. Please try again.";
+
+  } finally {
+
+    isSending = false;
+
+    if (sendButton) {
+
+      sendButton.disabled = false;
+      sendButton.style.opacity = "1";
+
+    }
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }
+
+}
+
+
+/* =====================================
+   VOICE OUTPUT
+===================================== */
+
+function speakText(text) {
+
+  if (
+    !("speechSynthesis" in window) ||
+    !text ||
+    !text.trim()
+  ) {
+    return;
+  }
+
+
+  const synth =
+    window.speechSynthesis;
+
+  synth.cancel();
+
+
+  const speech =
+    new SpeechSynthesisUtterance(text);
+
+  speech.rate = 1;
+  speech.pitch = 1;
+  speech.volume = 1;
+
+
+  if (
+    /[\u0900-\u097F]/.test(text)
+  ) {
+
+    speech.lang = "hi-IN";
+
+  } else {
+
+    speech.lang = "en-IN";
+
+  }
+
+
+  const voices =
+    synth.getVoices();
+
+
+  let selectedVoice =
+    voices.find(
+      voice =>
+        voice.lang &&
+        voice.lang
+          .toLowerCase()
+          .startsWith(
+            speech.lang
+              .toLowerCase()
           )
+    );
+
+
+  if (!selectedVoice) {
+
+    selectedVoice =
+      voices.find(
+        voice =>
+          voice.lang &&
+          voice.lang
+            .toLowerCase()
+            .startsWith("en")
+      );
+
+  }
+
+
+  if (selectedVoice) {
+    speech.voice =
+      selectedVoice;
+  }
+
+
+  setTimeout(() => {
+
+    try {
+      synth.speak(speech);
+    } catch (error) {
+      console.error(
+        "Voice error:",
+        error
+      );
+    }
+
+  }, 100);
+
+}
+
+
+/* =====================================
+   NEW CHAT
+===================================== */
+
+function newChat() {
+
+  if (
+    "speechSynthesis" in window
+  ) {
+
+    window.speechSynthesis.cancel();
+
+  }
+
+
+  if (recognition) {
+
+    try {
+      recognition.stop();
+    } catch {}
+
+    recognition = null;
+
+  }
+
+
+  const chat =
+    document.getElementById("chat");
+
+
+  chat.innerHTML = `
+
+    <div
+      class="welcome"
+      id="welcome">
+
+      <div class="welcome-orb"></div>
+
+      <h1>
+        How can I help you?
+      </h1>
+
+      <p>
+        Ask anything to XZone AI
+      </p>
+
+      <div class="suggestions">
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('Explain something to me')">
+          Explain something
+        </button>
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('Help me learn something new')">
+          Learn something
+        </button>
+
+        <button
+          class="suggestion"
+          onclick="useSuggestion('Help me with an idea')">
+          Create an idea
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================
+   VOICE INPUT
+===================================== */
+
+function startVoice() {
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if (!SpeechRecognition) {
+
+    alert(
+      "Voice recognition is not supported. Please use Google Chrome."
+    );
+
+    return;
+
+  }
+
+
+  if (recognition) {
+
+    try {
+      recognition.stop();
+    } catch {}
+
+    recognition = null;
+
+    return;
+
+  }
+
+
+  recognition =
+    new SpeechRecognition();
+
+
+  recognition.lang =
+    "en-IN";
+
+  recognition.continuous =
+    false;
+
+  recognition.interimResults =
+    false;
+
+
+  const micButton =
+    document.getElementById(
+      "micButton"
+    );
+
+
+  recognition.onstart =
+    function () {
+
+      if (micButton) {
+
+        micButton.classList.add(
+          "listening"
+        );
+
+      }
+
+    };
+
+
+  recognition.onresult =
+    function (event) {
+
+      const transcript =
+        event.results[0][0]
+          .transcript;
+
+
+      const input =
+        document.getElementById(
+          "message"
+        );
+
+
+      input.value =
+        transcript;
+
+
+      setTimeout(
+        sendMessage,
+        200
+      );
+
+    };
+
+
+  recognition.onerror =
+    function (event) {
+
+      console.error(
+        "Speech recognition error:",
+        event.error
+      );
+
+    };
+
+
+  recognition.onend =
+    function () {
+
+      if (micButton) {
+
+        micButton.classList.remove(
+          "listening"
+        );
+
+      }
+
+      recognition = null;
+
+    };
+
+
+  try {
+
+    recognition.start();
+
+  } catch (error) {
+
+    console.error(
+      "Microphone error:",
+      error
+    );
+
+    recognition = null;
+
+  }
+
+}
+
+
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+function sleep(ms) {
+
+  return new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        ms
+      )
+  );
+
+}
+
+
+/* =====================================
+   3D PARALLAX
+===================================== */
+
+(function () {
+
+  const scene =
+    document.getElementById(
+      "heroScene"
+    );
+
+  const system =
+    document.getElementById(
+      "ai3DSystem"
+    );
+
+  if (!scene || !system) return;
+
+
+  let targetX = 0;
+  let targetY = 0;
+
+  let currentX = 0;
+  let currentY = 0;
+
+
+  function move3D(x, y) {
+
+    const rect =
+      scene.getBoundingClientRect();
+
+
+    const centerX =
+      rect.left +
+      rect.width / 2;
+
+
+    const centerY =
+      rect.top +
+      rect.height / 2;
+
+
+    targetY =
+      ((x - centerX) /
+        rect.width) * 24;
+
+
+    targetX =
+      -((y - centerY) /
+        rect.height) * 20;
+
+  }
+
+
+  scene.addEventListener(
+    "mousemove",
+    function (event) {
+
+      move3D(
+        event.clientX,
+        event.clientY
       );
 
     }
-
-  </script>
-
-
-  <!-- =====================================
-       3D PARALLAX
-  ===================================== -->
-
-  <script>
-
-    (function () {
-
-      const scene =
-        document.getElementById(
-          "heroScene"
-        );
-
-      const system =
-        document.getElementById(
-          "ai3DSystem"
-        );
-
-      if (!scene || !system) return;
+  );
 
 
-      let targetX = 0;
-      let targetY = 0;
+  scene.addEventListener(
+    "mouseleave",
+    function () {
 
-      let currentX = 0;
-      let currentY = 0;
+      targetX = 0;
+      targetY = 0;
 
-
-      function move3D(x, y) {
-
-        const rect =
-          scene.getBoundingClientRect();
+    }
+  );
 
 
-        const centerX =
-          rect.left +
-          rect.width / 2;
+  scene.addEventListener(
+    "touchmove",
+    function (event) {
+
+      if (!event.touches.length)
+        return;
+
+      move3D(
+        event.touches[0].clientX,
+        event.touches[0].clientY
+      );
+
+    },
+    {
+      passive: true
+    }
+  );
 
 
-        const centerY =
-          rect.top +
-          rect.height / 2;
+  function animate3D() {
+
+    currentX +=
+      (targetX - currentX) * .08;
 
 
-        targetY =
-          ((x - centerX) /
-            rect.width) * 24;
+    currentY +=
+      (targetY - currentY) * .08;
 
 
-        targetX =
-          -((y - centerY) /
-            rect.height) * 20;
+    system.style.setProperty(
+      "--rx",
+      currentX + "deg"
+    );
 
-      }
+
+    system.style.setProperty(
+      "--ry",
+      currentY + "deg"
+    );
 
 
-      scene.addEventListener(
-        "mousemove",
-        function (event) {
+    requestAnimationFrame(
+      animate3D
+    );
 
-          move3D(
-            event.clientX,
-            event.clientY
-          );
+  }
 
-        }
+
+  animate3D();
+
+})();
+
+
+/* =====================================
+   PARTICLE NETWORK
+===================================== */
+
+(function () {
+
+  const canvas =
+    document.getElementById(
+      "aiParticles"
+    );
+
+  if (!canvas) return;
+
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+
+
+  const particles = [];
+
+
+  function getParticleCount() {
+
+    return window.innerWidth < 600
+      ? 38
+      : 70;
+
+  }
+
+
+  function resize() {
+
+    const rect =
+      canvas.getBoundingClientRect();
+
+
+    dpr =
+      Math.min(
+        window.devicePixelRatio || 1,
+        2
       );
 
 
-      scene.addEventListener(
-        "mouseleave",
-        function () {
+    width =
+      rect.width;
 
-          targetX = 0;
-          targetY = 0;
 
-        }
-      );
+    height =
+      rect.height;
 
 
-      scene.addEventListener(
-        "touchmove",
-        function (event) {
+    canvas.width =
+      width * dpr;
 
-          if (!event.touches.length)
-            return;
 
-          move3D(
-            event.touches[0].clientX,
-            event.touches[0].clientY
-          );
+    canvas.height =
+      height * dpr;
 
-        },
-        {
-          passive: true
-        }
-      );
 
+    ctx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
 
-      function animate3D() {
+  }
 
-        currentX +=
-          (targetX - currentX) * .08;
 
+  function createParticles() {
 
-        currentY +=
-          (targetY - currentY) * .08;
+    particles.length = 0;
 
 
-        system.style.setProperty(
-          "--rx",
-          currentX + "deg"
-        );
+    const count =
+      getParticleCount();
 
 
-        system.style.setProperty(
-          "--ry",
-          currentY + "deg"
-        );
+    for (
+      let i = 0;
+      i < count;
+      i++
+    ) {
 
+      particles.push({
 
-        requestAnimationFrame(
-          animate3D
-        );
-
-      }
-
-
-      animate3D();
-
-    })();
-
-  </script>
-
-
-  <!-- =====================================
-       PARTICLE NETWORK
-  ===================================== -->
-
-  <script>
-
-    (function () {
-
-      const canvas =
-        document.getElementById(
-          "aiParticles"
-        );
-
-      if (!canvas) return;
-
-
-      const ctx =
-        canvas.getContext("2d");
-
-
-      let width = 0;
-      let height = 0;
-      let dpr = 1;
-
-
-      const particles = [];
-
-
-      function getParticleCount() {
-
-        return window.innerWidth < 600
-          ? 38
-          : 70;
-
-      }
-
-
-      function resize() {
-
-        const rect =
-          canvas.getBoundingClientRect();
-
-
-        dpr =
-          Math.min(
-            window.devicePixelRatio || 1,
-            2
-          );
-
-
-        width =
-          rect.width;
-
-
-        height =
-          rect.height;
-
-
-        canvas.width =
-          width * dpr;
-
-
-        canvas.height =
-          height * dpr;
-
-
-        ctx.setTransform(
-          dpr,
-          0,
-          0,
-          dpr,
-          0,
-          0
-        );
-
-      }
-
-
-      function createParticles() {
-
-        particles.length = 0;
-
-
-        const count =
-          getParticleCount();
-
-
-        for (
-          let i = 0;
-          i < count;
-          i++
-        ) {
-
-          particles.push({
-
-            x:
-              Math.random() *
-              width,
-
-            y:
-              Math.random() *
-              height,
-
-            z:
-              Math.random(),
-
-            vx:
-              (Math.random() - .5)
-              * .18,
-
-            vy:
-              (Math.random() - .5)
-              * .18,
-
-            size:
-              Math.random() * 2 + .5,
-
-            phase:
-              Math.random() *
-              Math.PI * 2
-
-          });
-
-        }
-
-      }
-
-
-      function draw() {
-
-        ctx.clearRect(
-          0,
-          0,
+        x:
+          Math.random() *
           width,
-          height
-        );
+
+        y:
+          Math.random() *
+          height,
+
+        z:
+          Math.random(),
+
+        vx:
+          (Math.random() - .5)
+          * .18,
+
+        vy:
+          (Math.random() - .5)
+          * .18,
+
+        size:
+          Math.random() * 2 + .5,
+
+        phase:
+          Math.random() *
+          Math.PI * 2
+
+      });
+
+    }
+
+  }
 
 
-        const time =
-          performance.now() *
-          .001;
+  function draw() {
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
 
 
-        for (
-          let i = 0;
-          i < particles.length;
-          i++
-        ) {
-
-          const p =
-            particles[i];
+    const time =
+      performance.now() *
+      .001;
 
 
-          p.x += p.vx;
-          p.y += p.vy;
+    for (
+      let i = 0;
+      i < particles.length;
+      i++
+    ) {
+
+      const p =
+        particles[i];
 
 
-          p.phase += .01;
+      p.x += p.vx;
+      p.y += p.vy;
 
 
-          if (p.x < 0)
-            p.x = width;
+      p.phase += .01;
 
 
-          if (p.x > width)
-            p.x = 0;
+      if (p.x < 0)
+        p.x = width;
 
 
-          if (p.y < 0)
-            p.y = height;
+      if (p.x > width)
+        p.x = 0;
 
 
-          if (p.y > height)
-            p.y = 0;
+      if (p.y < 0)
+        p.y = height;
 
 
-          const pulse =
-            .5 +
-            Math.sin(
-              time * 1.5 +
-              p.phase
-            ) * .5;
+      if (p.y > height)
+        p.y = 0;
 
 
-          const alpha =
-            .18 +
-            p.z * .55;
+      const pulse =
+        .5 +
+        Math.sin(
+          time * 1.5 +
+          p.phase
+        ) * .5;
+
+
+      const alpha =
+        .18 +
+        p.z * .55;
+
+
+      ctx.beginPath();
+
+
+      ctx.arc(
+        p.x,
+        p.y,
+        p.size + pulse,
+        0,
+        Math.PI * 2
+      );
+
+
+      ctx.fillStyle =
+        `rgba(150,140,255,${alpha})`;
+
+
+      ctx.fill();
+
+
+      for (
+        let j = i + 1;
+        j < particles.length;
+        j++
+      ) {
+
+        const q =
+          particles[j];
+
+
+        const dx =
+          p.x - q.x;
+
+
+        const dy =
+          p.y - q.y;
+
+
+        const distance =
+          Math.sqrt(
+            dx * dx +
+            dy * dy
+          );
+
+
+        if (distance < 85) {
+
+          const opacity =
+            (1 - distance / 85)
+            * .13
+            * p.z;
 
 
           ctx.beginPath();
 
 
-          ctx.arc(
+          ctx.moveTo(
             p.x,
-            p.y,
-            p.size + pulse,
-            0,
-            Math.PI * 2
+            p.y
           );
 
 
-          ctx.fillStyle =
-            `rgba(150,140,255,${alpha})`;
+          ctx.lineTo(
+            q.x,
+            q.y
+          );
 
 
-          ctx.fill();
+          ctx.strokeStyle =
+            `rgba(124,108,255,${opacity})`;
 
 
-          for (
-            let j = i + 1;
-            j < particles.length;
-            j++
-          ) {
-
-            const q =
-              particles[j];
+          ctx.lineWidth = .7;
 
 
-            const dx =
-              p.x - q.x;
-
-
-            const dy =
-              p.y - q.y;
-
-
-            const distance =
-              Math.sqrt(
-                dx * dx +
-                dy * dy
-              );
-
-
-            if (distance < 85) {
-
-              const opacity =
-                (1 - distance / 85)
-                * .13
-                * p.z;
-
-
-              ctx.beginPath();
-
-
-              ctx.moveTo(
-                p.x,
-                p.y
-              );
-
-
-              ctx.lineTo(
-                q.x,
-                q.y
-              );
-
-
-              ctx.strokeStyle =
-                `rgba(124,108,255,${opacity})`;
-
-
-              ctx.lineWidth = .7;
-
-
-              ctx.stroke();
-
-            }
-
-          }
+          ctx.stroke();
 
         }
-
-
-        requestAnimationFrame(draw);
 
       }
 
+    }
 
-      window.addEventListener(
-        "resize",
-        function () {
 
-          resize();
-          createParticles();
+    requestAnimationFrame(draw);
 
-        }
-      );
+  }
 
+
+  window.addEventListener(
+    "resize",
+    function () {
 
       resize();
       createParticles();
-      draw();
-
-    })();
-
-  </script>
-
-
-  <!-- =====================================
-       PREMIUM
-  ===================================== -->
-
-  <script>
-
-    function openPremium() {
-
-      document
-        .getElementById("premiumOverlay")
-        .classList.add("show");
 
     }
+  );
 
 
-    function closePremium() {
+  resize();
+  createParticles();
+  draw();
 
-      document
-        .getElementById("premiumOverlay")
-        .classList.remove("show");
+})();
 
-    }
 
+/* =====================================
+   PREMIUM
+===================================== */
 
-    function closePremiumOnOutside(event) {
+function openPremium() {
 
-      if (
-        event.target.id ===
-        "premiumOverlay"
-      ) {
+  document
+    .getElementById("premiumOverlay")
+    .classList.add("show");
 
-        closePremium();
+}
 
-      }
 
-    }
+function closePremium() {
 
+  document
+    .getElementById("premiumOverlay")
+    .classList.remove("show");
 
-    function premiumComingSoon() {
+}
 
-      alert(
-        "Premium payment system will be connected securely through the backend in the next step."
-      );
 
-    }
+function closePremiumOnOutside(event) {
 
-  </script>
+  if (
+    event.target.id ===
+    "premiumOverlay"
+  ) {
 
+    closePremium();
 
-  <!-- =====================================
-       SUPABASE AUTH
-  ===================================== -->
+  }
 
-  <script>
+}
 
-    const SUPABASE_URL =
-      "https://hbwuzaaypezfvqzlcjih.supabase.co";
 
+function premiumComingSoon() {
 
-    /*
-      IMPORTANT:
-      Yahan apni Supabase PUBLISHABLE/ANON key
-      paste karo.
+  alert(
+    "Premium payment system will be connected securely through the backend in the next step."
+  );
 
-      NEVER put a Supabase service-role/private key
-      in this frontend file.
-    */
+}
 
-    const SUPABASE_ANON_KEY =
-      "sb_publishable_wAyLOr7mfJ5uEyTMaqPHFw_D-_JEhFh";
 
+/* =====================================
+   SUPABASE AUTH
+===================================== */
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-      );
+const SUPABASE_URL =
+  "https://hbwuzaaypezfvqzlcjih.supabase.co";
 
 
-    function openAuth() {
+/*
+  IMPORTANT:
+  Yahan apni Supabase PUBLISHABLE/ANON key
+  paste karo.
 
-      document
-        .getElementById("authOverlay")
-        .classList.add("show");
+  NEVER put a Supabase service-role/private key
+  in this frontend file.
+*/
 
-    }
+const SUPABASE_ANON_KEY =
+  "sb_publishable_wAyLOr7mfJ5uEyTMaqPHFw_D-_JEhFh";
 
 
-    function closeAuth() {
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-      document
-        .getElementById("authOverlay")
-        .classList.remove("show");
 
-    }
+function openAuth() {
 
+  document
+    .getElementById("authOverlay")
+    .classList.add("show");
 
-    function closeAuthOnOutside(event) {
+}
 
-      if (
-        event.target.id ===
-        "authOverlay"
-      ) {
 
-        closeAuth();
+function closeAuth() {
 
-      }
+  document
+    .getElementById("authOverlay")
+    .classList.remove("show");
 
-    }
+}
 
 
-    function setAuthMessage(
-      text,
-      isError = false
-    ) {
+function closeAuthOnOutside(event) {
 
-      const message =
-        document.getElementById(
-          "authMessage"
-        );
+  if (
+    event.target.id ===
+    "authOverlay"
+  ) {
 
+    closeAuth();
 
-      if (!message) return;
+  }
 
+}
 
-      message.textContent =
-        text;
 
+function setAuthMessage(
+  text,
+  isError = false
+) {
 
-      message.classList.toggle(
-        "error",
-        isError
-      );
+  const message =
+    document.getElementById(
+      "authMessage"
+    );
 
-    }
 
+  if (!message) return;
 
-    async function signUpWithEmail() {
 
-      const email =
-        document
-          .getElementById("authEmail")
-          .value
-          .trim();
+  message.textContent =
+    text;
 
 
-      const password =
-        document
-          .getElementById("authPassword")
-          .value;
+  message.classList.toggle(
+    "error",
+    isError
+  );
 
+}
 
-      if (!email || !password) {
 
-        setAuthMessage(
-          "Please enter email and password.",
-          true
-        );
+async function signUpWithEmail() {
 
-        return;
+  const email =
+    document
+      .getElementById("authEmail")
+      .value
+      .trim();
 
-      }
 
+  const password =
+    document
+      .getElementById("authPassword")
+      .value;
 
-      if (password.length < 6) {
 
-        setAuthMessage(
-          "Password must be at least 6 characters.",
-          true
-        );
+  if (!email || !password) {
 
-        return;
+    setAuthMessage(
+      "Please enter email and password.",
+      true
+    );
 
-      }
+    return;
 
+  }
 
-      setAuthMessage(
-        "Creating your account..."
-      );
 
+  if (password.length < 6) {
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.auth.signUp({
-          email,
-          password
-        });
+    setAuthMessage(
+      "Password must be at least 6 characters.",
+      true
+    );
 
+    return;
 
-      if (error) {
+  }
 
-        console.error(error);
 
-        setAuthMessage(
-          error.message,
-          true
-        );
+  setAuthMessage(
+    "Creating your account..."
+  );
 
-        return;
 
-      }
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.signUp({
+      email,
+      password
+    });
 
 
-      if (data.session) {
+  if (error) {
 
-        setAuthMessage(
-          "Account created successfully."
-        );
+    console.error(error);
 
+    setAuthMessage(
+      error.message,
+      true
+    );
 
-        updateAuthUI(
-          data.session
-        );
+    return;
 
+  }
 
-        setTimeout(
-          closeAuth,
-          700
-        );
 
-      } else {
+  if (data.session) {
 
-        setAuthMessage(
-          "Account created. Check your email to verify your account."
-        );
+    setAuthMessage(
+      "Account created successfully."
+    );
 
-      }
 
-    }
+    updateAuthUI(
+      data.session
+    );
 
 
-    async function loginWithEmail() {
+    setTimeout(
+      closeAuth,
+      700
+    );
 
-      const email =
-        document
-          .getElementById("authEmail")
-          .value
-          .trim();
+  } else {
 
+    setAuthMessage(
+      "Account created. Check your email to verify your account."
+    );
 
-      const password =
-        document
-          .getElementById("authPassword")
-          .value;
+  }
 
+}
 
-      if (!email || !password) {
 
-        setAuthMessage(
-          "Please enter email and password.",
-          true
-        );
+async function loginWithEmail() {
 
-        return;
+  const email =
+    document
+      .getElementById("authEmail")
+      .value
+      .trim();
 
-      }
 
+  const password =
+    document
+      .getElementById("authPassword")
+      .value;
 
-      setAuthMessage(
-        "Logging in..."
-      );
 
+  if (!email || !password) {
 
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.auth
-          .signInWithPassword({
-            email,
-            password
-          });
+    setAuthMessage(
+      "Please enter email and password.",
+      true
+    );
 
+    return;
 
-      if (error) {
+  }
 
-        setAuthMessage(
-          error.message,
-          true
-        );
 
-        return;
+  setAuthMessage(
+    "Logging in..."
+  );
 
-      }
 
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth
+      .signInWithPassword({
+        email,
+        password
+      });
 
-      setAuthMessage(
-        "Login successful."
-      );
 
+  if (error) {
 
-      updateAuthUI(
-        data.session
-      );
+    setAuthMessage(
+      error.message,
+      true
+    );
 
+    return;
 
-      setTimeout(
-        closeAuth,
-        700
-      );
+  }
 
-    }
 
+  setAuthMessage(
+    "Login successful."
+  );
 
-    async function loginWithGitHub() {
 
-      setAuthMessage(
-        "Connecting to GitHub..."
-      );
+  updateAuthUI(
+    data.session
+  );
 
 
-      const {
-        error
-      } =
-        await supabaseClient.auth
-          .signInWithOAuth({
+  setTimeout(
+    closeAuth,
+    700
+  );
 
-            provider: "github",
+}
 
-            options: {
-              redirectTo:
-                window.location.origin
-            }
 
-          });
+async function loginWithGitHub() {
 
+  setAuthMessage(
+    "Connecting to GitHub..."
+  );
 
-      if (error) {
 
-        setAuthMessage(
-          error.message,
-          true
-        );
+  const {
+    error
+  } =
+    await supabaseClient.auth
+      .signInWithOAuth({
 
-      }
+        provider: "github",
 
-    }
-
-
-    async function logoutUser() {
-
-      setAuthMessage(
-        "Logging out..."
-      );
-
-
-      const {
-        error
-      } =
-        await supabaseClient.auth
-          .signOut();
-
-
-      if (error) {
-
-        setAuthMessage(
-          error.message,
-          true
-        );
-
-        return;
-
-      }
-
-
-      updateAuthUI(null);
-
-
-      setAuthMessage(
-        "Logged out successfully."
-      );
-
-    }
-
-
-    function updateAuthUI(session) {
-
-      const button =
-        document.getElementById(
-          "authOpenButton"
-        );
-
-
-      const logoutButton =
-        document.getElementById(
-          "authLogoutButton"
-        );
-
-
-      const userBox =
-        document.getElementById(
-          "authUser"
-        );
-
-
-      const statusText =
-        document.getElementById(
-          "statusText"
-        );
-
-
-      if (
-        session &&
-        session.user
-      ) {
-
-        const email =
-          session.user.email ||
-          "Signed in";
-
-
-        if (button) {
-          button.textContent =
-            "Account";
+        options: {
+          redirectTo:
+            window.location.origin
         }
 
-
-        if (logoutButton) {
-          logoutButton.style.display =
-            "block";
-        }
+      });
 
 
-        if (userBox) {
-          userBox.textContent =
-            email;
-        }
+  if (error) {
+
+    setAuthMessage(
+      error.message,
+      true
+    );
+
+  }
+
+}
 
 
-        if (statusText) {
-          statusText.textContent =
-            "Signed in";
-        }
+async function logoutUser() {
 
-      } else {
-
-        if (button) {
-          button.textContent =
-            "Login";
-        }
+  setAuthMessage(
+    "Logging out..."
+  );
 
 
-        if (logoutButton) {
-          logoutButton.style.display =
-            "none";
-        }
+  const {
+    error
+  } =
+    await supabaseClient.auth
+      .signOut();
 
 
-        if (userBox) {
-          userBox.textContent =
-            "";
-        }
+  if (error) {
+
+    setAuthMessage(
+      error.message,
+      true
+    );
+
+    return;
+
+  }
 
 
-        if (statusText) {
-          statusText.textContent =
-            "XZone AI Online";
-        }
+  updateAuthUI(null);
 
-      }
+
+  setAuthMessage(
+    "Logged out successfully."
+  );
+
+}
+
+
+function updateAuthUI(session) {
+
+  const button =
+    document.getElementById(
+      "authOpenButton"
+    );
+
+
+  const logoutButton =
+    document.getElementById(
+      "authLogoutButton"
+    );
+
+
+  const userBox =
+    document.getElementById(
+      "authUser"
+    );
+
+
+  const statusText =
+    document.getElementById(
+      "statusText"
+    );
+
+
+  if (
+    session &&
+    session.user
+  ) {
+
+    const email =
+      session.user.email ||
+      "Signed in";
+
+
+    if (button) {
+      button.textContent =
+        "Account";
+    }
+
+
+    if (logoutButton) {
+      logoutButton.style.display =
+        "block";
+    }
+
+
+    if (userBox) {
+      userBox.textContent =
+        email;
+    }
+
+
+    if (statusText) {
+      statusText.textContent =
+        "Signed in";
+    }
+
+  } else {
+
+    if (button) {
+      button.textContent =
+        "Login";
+    }
+
+
+    if (logoutButton) {
+      logoutButton.style.display =
+        "none";
+    }
+
+
+    if (userBox) {
+      userBox.textContent =
+        "";
+    }
+
+
+    if (statusText) {
+      statusText.textContent =
+        "XZone AI Online";
+    }
+
+  }
+
+}
+
+
+async function initAuth() {
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth
+        .getSession();
+
+
+    if (error) {
+
+      console.error(error);
+
+      return;
 
     }
 
 
-    async function initAuth() {
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.auth
-            .getSession();
+    updateAuthUI(
+      data.session
+    );
 
 
-        if (error) {
+    supabaseClient.auth
+      .onAuthStateChange(
+        function (
+          event,
+          session
+        ) {
 
-          console.error(error);
-
-          return;
-
-        }
-
-
-        updateAuthUI(
-          data.session
-        );
-
-
-        supabaseClient.auth
-          .onAuthStateChange(
-            function (
-              event,
-              session
-            ) {
-
-              updateAuthUI(
-                session
-              );
-
-            }
+          updateAuthUI(
+            session
           );
 
+        }
+      );
 
-      } catch (error) {
 
-        console.error(
-          "Auth initialization error:",
-          error
+  } catch (error) {
+
+    console.error(
+      "Auth initialization error:",
+      error
+    );
+
+  }
+
+}
+
+
+initAuth();
+
+
+/* =====================================================
+   BUSINESS ANALYSIS FEATURE
+   - Revenue & Expense tracking
+   - Inventory management
+   - Customer management
+   - Sales / profit calculation
+   - AI Problem Finder, Growth Opportunities, Action Plan
+   - All data saved in the browser (localStorage)
+===================================================== */
+
+const BIZ_STORAGE_KEY = "xzoneBusinessData";
+
+let bizData = loadBizData();
+
+
+function bizUid() {
+
+  return (
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2, 7)
+  );
+
+}
+
+
+function loadBizData() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(BIZ_STORAGE_KEY);
+
+    if (raw) {
+
+      const parsed = JSON.parse(raw);
+
+      return {
+        revenues: parsed.revenues || [],
+        expenses: parsed.expenses || [],
+        inventory: parsed.inventory || [],
+        customers: parsed.customers || [],
+        sales: parsed.sales || []
+      };
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Could not load business data:",
+      error
+    );
+
+  }
+
+  return {
+    revenues: [],
+    expenses: [],
+    inventory: [],
+    customers: [],
+    sales: []
+  };
+
+}
+
+
+function saveBizData() {
+
+  try {
+
+    localStorage.setItem(
+      BIZ_STORAGE_KEY,
+      JSON.stringify(bizData)
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Could not save business data:",
+      error
+    );
+
+  }
+
+}
+
+
+function formatMoney(amount) {
+
+  const value =
+    Number(amount) || 0;
+
+  return (
+    "₹" +
+    value.toLocaleString("en-IN", {
+      maximumFractionDigits: 2
+    })
+  );
+
+}
+
+
+function formatBizDate(iso) {
+
+  try {
+
+    return new Date(iso)
+      .toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short"
+      });
+
+  } catch {
+
+    return "";
+
+  }
+
+}
+
+
+/* =====================================
+   OPEN / CLOSE / TABS
+===================================== */
+
+function openBusinessAnalysis() {
+
+  document
+    .getElementById("businessOverlay")
+    .classList.add("show");
+
+  renderAllBiz();
+
+}
+
+
+function closeBusinessAnalysis() {
+
+  document
+    .getElementById("businessOverlay")
+    .classList.remove("show");
+
+}
+
+
+function closeBizOnOutside(event) {
+
+  if (
+    event.target.id ===
+    "businessOverlay"
+  ) {
+
+    closeBusinessAnalysis();
+
+  }
+
+}
+
+
+function switchBizTab(tab) {
+
+  document
+    .querySelectorAll(".biz-tab-panel")
+    .forEach(panel => {
+      panel.classList.add("hidden");
+    });
+
+
+  document
+    .querySelectorAll(".biz-tab-btn")
+    .forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+
+  const panel =
+    document.getElementById(
+      "bizTab-" + tab
+    );
+
+  if (panel) {
+    panel.classList.remove("hidden");
+  }
+
+
+  const btn =
+    document.querySelector(
+      `.biz-tab-btn[data-tab="${tab}"]`
+    );
+
+  if (btn) {
+    btn.classList.add("active");
+  }
+
+}
+
+
+function renderAllBiz() {
+
+  renderBizOverview();
+  renderBizRevenue();
+  renderBizExpenses();
+  renderBizInventory();
+  renderBizCustomers();
+  renderBizSales();
+
+}
+
+
+/* =====================================
+   OVERVIEW
+===================================== */
+
+function renderBizOverview() {
+
+  const totalRevenue =
+    bizData.revenues.reduce(
+      (sum, r) => sum + Number(r.amount || 0),
+      0
+    ) +
+    bizData.sales.reduce(
+      (sum, s) => sum + Number(s.amount || 0),
+      0
+    );
+
+
+  const totalExpense =
+    bizData.expenses.reduce(
+      (sum, e) => sum + Number(e.amount || 0),
+      0
+    );
+
+
+  const profit =
+    totalRevenue - totalExpense;
+
+
+  const margin =
+    totalRevenue > 0
+      ? ((profit / totalRevenue) * 100).toFixed(1)
+      : "0.0";
+
+
+  const lowStock =
+    bizData.inventory.filter(
+      item =>
+        Number(item.qty) <=
+        Number(item.reorder || 0)
+    );
+
+
+  setText("bizTotalRevenue", formatMoney(totalRevenue));
+  setText("bizTotalExpense", formatMoney(totalExpense));
+  setText("bizProfit", formatMoney(profit));
+  setText("bizMargin", margin + "%");
+  setText("bizCustomerCount", bizData.customers.length);
+  setText("bizInventoryCount", bizData.inventory.length);
+  setText("bizLowStockCount", lowStock.length);
+  setText("bizSalesCount", bizData.sales.length);
+
+
+  renderBizRecentActivity();
+
+}
+
+
+function setText(id, text) {
+
+  const el =
+    document.getElementById(id);
+
+  if (el) {
+    el.textContent = text;
+  }
+
+}
+
+
+function renderBizRecentActivity() {
+
+  const rows = [];
+
+
+  bizData.revenues.forEach(r => {
+    rows.push({
+      date: r.date,
+      type: "Revenue",
+      desc: r.desc,
+      amount: r.amount
+    });
+  });
+
+
+  bizData.expenses.forEach(e => {
+    rows.push({
+      date: e.date,
+      type: "Expense",
+      desc: e.desc,
+      amount: -e.amount
+    });
+  });
+
+
+  bizData.sales.forEach(s => {
+    rows.push({
+      date: s.date,
+      type: "Sale",
+      desc: s.itemName || "Sale",
+      amount: s.amount
+    });
+  });
+
+
+  rows.sort((a, b) =>
+    new Date(b.date) - new Date(a.date)
+  );
+
+
+  const top =
+    rows.slice(0, 8);
+
+
+  const tbody =
+    document.getElementById(
+      "bizRecentActivity"
+    );
+
+  if (!tbody) return;
+
+
+  if (top.length === 0) {
+
+    tbody.innerHTML =
+      `<tr class="biz-empty-row">
+        <td colspan="4">
+          No activity yet. Add revenue, expenses or sales to get started.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  tbody.innerHTML =
+    top.map(row => `
+      <tr>
+        <td>${formatBizDate(row.date)}</td>
+        <td>${escapeHTML(row.type)}</td>
+        <td>${escapeHTML(row.desc || "")}</td>
+        <td>${row.amount < 0 ? "-" : ""}${formatMoney(Math.abs(row.amount))}</td>
+      </tr>
+    `).join("");
+
+}
+
+
+/* =====================================
+   REVENUE
+===================================== */
+
+function addRevenue() {
+
+  const descInput =
+    document.getElementById("bizRevDesc");
+
+  const amountInput =
+    document.getElementById("bizRevAmount");
+
+  const desc =
+    descInput.value.trim();
+
+  const amount =
+    parseFloat(amountInput.value);
+
+
+  if (!desc || !amount || amount <= 0) {
+
+    alert(
+      "Please enter a description and a valid amount."
+    );
+
+    return;
+
+  }
+
+
+  bizData.revenues.push({
+    id: bizUid(),
+    desc,
+    amount,
+    date: new Date().toISOString()
+  });
+
+
+  saveBizData();
+
+
+  descInput.value = "";
+  amountInput.value = "";
+
+
+  renderBizRevenue();
+  renderBizOverview();
+
+}
+
+
+function deleteRevenue(id) {
+
+  bizData.revenues =
+    bizData.revenues.filter(
+      r => r.id !== id
+    );
+
+
+  saveBizData();
+
+  renderBizRevenue();
+  renderBizOverview();
+
+}
+
+
+function renderBizRevenue() {
+
+  const tbody =
+    document.getElementById(
+      "bizRevenueList"
+    );
+
+  if (!tbody) return;
+
+
+  if (bizData.revenues.length === 0) {
+
+    tbody.innerHTML =
+      `<tr class="biz-empty-row">
+        <td colspan="4">No revenue recorded yet.</td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...bizData.revenues].sort(
+      (a, b) =>
+        new Date(b.date) - new Date(a.date)
+    );
+
+
+  tbody.innerHTML =
+    sorted.map(r => `
+      <tr>
+        <td>${formatBizDate(r.date)}</td>
+        <td>${escapeHTML(r.desc)}</td>
+        <td>${formatMoney(r.amount)}</td>
+        <td>
+          <button class="biz-del-btn" onclick="deleteRevenue('${r.id}')">
+            Delete
+          </button>
+        </td>
+      </tr>
+    `).join("");
+
+}
+
+
+/* =====================================
+   EXPENSES
+===================================== */
+
+function addExpense() {
+
+  const descInput =
+    document.getElementById("bizExpDesc");
+
+  const categorySelect =
+    document.getElementById("bizExpCategory");
+
+  const amountInput =
+    document.getElementById("bizExpAmount");
+
+  const desc =
+    descInput.value.trim();
+
+  const category =
+    categorySelect.value;
+
+  const amount =
+    parseFloat(amountInput.value);
+
+
+  if (!desc || !amount || amount <= 0) {
+
+    alert(
+      "Please enter a description and a valid amount."
+    );
+
+    return;
+
+  }
+
+
+  bizData.expenses.push({
+    id: bizUid(),
+    desc,
+    category,
+    amount,
+    date: new Date().toISOString()
+  });
+
+
+  saveBizData();
+
+
+  descInput.value = "";
+  amountInput.value = "";
+
+
+  renderBizExpenses();
+  renderBizOverview();
+
+}
+
+
+function deleteExpense(id) {
+
+  bizData.expenses =
+    bizData.expenses.filter(
+      e => e.id !== id
+    );
+
+
+  saveBizData();
+
+  renderBizExpenses();
+  renderBizOverview();
+
+}
+
+
+function renderBizExpenses() {
+
+  const tbody =
+    document.getElementById(
+      "bizExpenseList"
+    );
+
+  if (!tbody) return;
+
+
+  if (bizData.expenses.length === 0) {
+
+    tbody.innerHTML =
+      `<tr class="biz-empty-row">
+        <td colspan="5">No expenses recorded yet.</td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...bizData.expenses].sort(
+      (a, b) =>
+        new Date(b.date) - new Date(a.date)
+    );
+
+
+  tbody.innerHTML =
+    sorted.map(e => `
+      <tr>
+        <td>${formatBizDate(e.date)}</td>
+        <td>${escapeHTML(e.desc)}</td>
+        <td>${escapeHTML(e.category || "Other")}</td>
+        <td>${formatMoney(e.amount)}</td>
+        <td>
+          <button class="biz-del-btn" onclick="deleteExpense('${e.id}')">
+            Delete
+          </button>
+        </td>
+      </tr>
+    `).join("");
+
+}
+
+
+/* =====================================
+   INVENTORY
+===================================== */
+
+function addInventoryItem() {
+
+  const nameInput =
+    document.getElementById("bizInvName");
+
+  const qtyInput =
+    document.getElementById("bizInvQty");
+
+  const costInput =
+    document.getElementById("bizInvCost");
+
+  const priceInput =
+    document.getElementById("bizInvPrice");
+
+  const reorderInput =
+    document.getElementById("bizInvReorder");
+
+  const name =
+    nameInput.value.trim();
+
+  const qty =
+    parseInt(qtyInput.value);
+
+  const cost =
+    parseFloat(costInput.value) || 0;
+
+  const price =
+    parseFloat(priceInput.value) || 0;
+
+  const reorder =
+    parseInt(reorderInput.value) || 0;
+
+
+  if (!name || isNaN(qty) || qty < 0) {
+
+    alert(
+      "Please enter an item name and a valid quantity."
+    );
+
+    return;
+
+  }
+
+
+  bizData.inventory.push({
+    id: bizUid(),
+    name,
+    qty,
+    cost,
+    price,
+    reorder
+  });
+
+
+  saveBizData();
+
+
+  nameInput.value = "";
+  qtyInput.value = "";
+  costInput.value = "";
+  priceInput.value = "";
+  reorderInput.value = "";
+
+
+  renderBizInventory();
+  renderBizOverview();
+
+}
+
+
+function deleteInventoryItem(id) {
+
+  bizData.inventory =
+    bizData.inventory.filter(
+      i => i.id !== id
+    );
+
+
+  saveBizData();
+
+  renderBizInventory();
+  renderBizOverview();
+
+}
+
+
+function renderBizInventory() {
+
+  const tbody =
+    document.getElementById(
+      "bizInventoryList"
+    );
+
+  if (tbody) {
+
+    if (bizData.inventory.length === 0) {
+
+      tbody.innerHTML =
+        `<tr class="biz-empty-row">
+          <td colspan="6">No inventory items yet.</td>
+        </tr>`;
+
+    } else {
+
+      tbody.innerHTML =
+        bizData.inventory.map(item => {
+
+          const isLow =
+            Number(item.qty) <=
+            Number(item.reorder || 0);
+
+          return `
+            <tr>
+              <td>${escapeHTML(item.name)}</td>
+              <td class="${isLow ? "biz-low-stock" : ""}">
+                ${item.qty}${isLow ? " ⚠" : ""}
+              </td>
+              <td>${formatMoney(item.cost)}</td>
+              <td>${formatMoney(item.price)}</td>
+              <td>${item.reorder}</td>
+              <td>
+                <button class="biz-del-btn" onclick="deleteInventoryItem('${item.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `;
+
+        }).join("");
+
+    }
+
+  }
+
+
+  renderBizSaleItemOptions();
+
+}
+
+
+/* =====================================
+   CUSTOMERS
+===================================== */
+
+function addCustomer() {
+
+  const nameInput =
+    document.getElementById("bizCustName");
+
+  const contactInput =
+    document.getElementById("bizCustContact");
+
+  const notesInput =
+    document.getElementById("bizCustNotes");
+
+  const name =
+    nameInput.value.trim();
+
+  const contact =
+    contactInput.value.trim();
+
+  const notes =
+    notesInput.value.trim();
+
+
+  if (!name) {
+
+    alert(
+      "Please enter a customer name."
+    );
+
+    return;
+
+  }
+
+
+  bizData.customers.push({
+    id: bizUid(),
+    name,
+    contact,
+    notes,
+    totalSpent: 0
+  });
+
+
+  saveBizData();
+
+
+  nameInput.value = "";
+  contactInput.value = "";
+  notesInput.value = "";
+
+
+  renderBizCustomers();
+  renderBizOverview();
+
+}
+
+
+function deleteCustomer(id) {
+
+  bizData.customers =
+    bizData.customers.filter(
+      c => c.id !== id
+    );
+
+
+  saveBizData();
+
+  renderBizCustomers();
+  renderBizOverview();
+
+}
+
+
+function renderBizCustomers() {
+
+  const tbody =
+    document.getElementById(
+      "bizCustomerList"
+    );
+
+  if (tbody) {
+
+    if (bizData.customers.length === 0) {
+
+      tbody.innerHTML =
+        `<tr class="biz-empty-row">
+          <td colspan="5">No customers added yet.</td>
+        </tr>`;
+
+    } else {
+
+      const sorted =
+        [...bizData.customers].sort(
+          (a, b) =>
+            (b.totalSpent || 0) -
+            (a.totalSpent || 0)
         );
+
+      tbody.innerHTML =
+        sorted.map(c => `
+          <tr>
+            <td>${escapeHTML(c.name)}</td>
+            <td>${escapeHTML(c.contact || "-")}</td>
+            <td>${formatMoney(c.totalSpent || 0)}</td>
+            <td>${escapeHTML(c.notes || "-")}</td>
+            <td>
+              <button class="biz-del-btn" onclick="deleteCustomer('${c.id}')">
+                Delete
+              </button>
+            </td>
+          </tr>
+        `).join("");
+
+    }
+
+  }
+
+
+  renderBizSaleCustomerOptions();
+
+}
+
+
+/* =====================================
+   SALES
+===================================== */
+
+function renderBizSaleItemOptions() {
+
+  const select =
+    document.getElementById("bizSaleItem");
+
+  if (!select) return;
+
+
+  if (bizData.inventory.length === 0) {
+
+    select.innerHTML =
+      `<option value="">No inventory items yet</option>`;
+
+    return;
+
+  }
+
+
+  select.innerHTML =
+    bizData.inventory.map(item => `
+      <option value="${item.id}">
+        ${escapeHTML(item.name)} (${item.qty} in stock)
+      </option>
+    `).join("");
+
+}
+
+
+function renderBizSaleCustomerOptions() {
+
+  const select =
+    document.getElementById(
+      "bizSaleCustomer"
+    );
+
+  if (!select) return;
+
+
+  const walkIn =
+    `<option value="">Walk-in customer</option>`;
+
+
+  select.innerHTML =
+    walkIn +
+    bizData.customers.map(c => `
+      <option value="${c.id}">
+        ${escapeHTML(c.name)}
+      </option>
+    `).join("");
+
+}
+
+
+function addSale() {
+
+  const itemSelect =
+    document.getElementById("bizSaleItem");
+
+  const customerSelect =
+    document.getElementById(
+      "bizSaleCustomer"
+    );
+
+  const qtyInput =
+    document.getElementById("bizSaleQty");
+
+  const itemId =
+    itemSelect.value;
+
+  const customerId =
+    customerSelect.value;
+
+  const qty =
+    parseInt(qtyInput.value);
+
+
+  if (!itemId) {
+
+    alert(
+      "Please add an inventory item first, then select it here."
+    );
+
+    return;
+
+  }
+
+
+  if (!qty || qty <= 0) {
+
+    alert(
+      "Please enter a valid quantity."
+    );
+
+    return;
+
+  }
+
+
+  const item =
+    bizData.inventory.find(
+      i => i.id === itemId
+    );
+
+
+  if (!item) {
+
+    alert("Item not found.");
+
+    return;
+
+  }
+
+
+  if (item.qty < qty) {
+
+    alert(
+      `Not enough stock. Only ${item.qty} left.`
+    );
+
+    return;
+
+  }
+
+
+  const amount =
+    item.price * qty;
+
+
+  item.qty -= qty;
+
+
+  const sale = {
+    id: bizUid(),
+    itemId,
+    itemName: item.name,
+    customerId: customerId || null,
+    qty,
+    amount,
+    date: new Date().toISOString()
+  };
+
+
+  bizData.sales.push(sale);
+
+
+  if (customerId) {
+
+    const customer =
+      bizData.customers.find(
+        c => c.id === customerId
+      );
+
+    if (customer) {
+
+      customer.totalSpent =
+        (customer.totalSpent || 0) +
+        amount;
+
+    }
+
+  }
+
+
+  saveBizData();
+
+
+  qtyInput.value = "1";
+
+
+  renderBizSales();
+  renderBizInventory();
+  renderBizCustomers();
+  renderBizOverview();
+
+}
+
+
+function deleteSale(id) {
+
+  const sale =
+    bizData.sales.find(
+      s => s.id === id
+    );
+
+
+  if (sale) {
+
+    const item =
+      bizData.inventory.find(
+        i => i.id === sale.itemId
+      );
+
+    if (item) {
+      item.qty += sale.qty;
+    }
+
+
+    if (sale.customerId) {
+
+      const customer =
+        bizData.customers.find(
+          c => c.id === sale.customerId
+        );
+
+      if (customer) {
+
+        customer.totalSpent =
+          Math.max(
+            0,
+            (customer.totalSpent || 0) -
+            sale.amount
+          );
 
       }
 
     }
 
-
-    initAuth();
-
-  </script>
-<section id="business-analysis" class="business-analysis-section">
-  <div class="business-analysis-container">
-
-```
-<div class="business-analysis-badge">
-  🚀 XZONE BUSINESS INTELLIGENCE
-</div>
-
-<h2>Analyze Your Business.<br>
-  <span>Find Problems. Grow Faster.</span>
-</h2>
-
-<p class="business-analysis-subtitle">
-  XZone AI analyzes your business, finds hidden problems,
-  identifies growth opportunities and gives you a practical action plan.
-</p>
-
-<div class="business-tools-grid">
-
-  <div class="business-tool-card">
-    <div class="business-tool-icon">📊</div>
-    <h3>Business Analysis</h3>
-    <p>
-      Understand sales, expenses, profit, customers and overall
-      business performance.
-    </p>
-  </div>
-
-  <div class="business-tool-card">
-    <div class="business-tool-icon">🔎</div>
-    <h3>Problem Finder</h3>
-    <p>
-      Find major problems affecting sales, profit, customers,
-      marketing and operations.
-    </p>
-  </div>
-
-  <div class="business-tool-card">
-    <div class="business-tool-icon">📈</div>
-    <h3>Growth Advisor</h3>
-    <p>
-      Get AI-powered ideas to increase sales, reduce unnecessary
-      costs and grow your customer base.
-    </p>
-  </div>
-
-  <div class="business-tool-card">
-    <div class="business-tool-icon">🎯</div>
-    <h3>Action Plan</h3>
-    <p>
-      Get a simple 7-day, 30-day and 90-day plan based on your
-      business situation.
-    </p>
-  </div>
-
-</div>
-
-<button class="business-analysis-btn" onclick="openBusinessAnalysis()">
-  Analyze My Business →
-</button>
-```
-
-  </div>
-</section>
-
-<style>
-.business-analysis-section {
-  padding: 100px 20px;
-  position: relative;
-}
-
-.business-analysis-container {
-  max-width: 1150px;
-  margin: auto;
-  text-align: center;
-}
-
-.business-analysis-badge {
-  display: inline-block;
-  padding: 9px 16px;
-  border: 1px solid rgba(124,108,255,.35);
-  border-radius: 999px;
-  color: #a99fff;
-  background: rgba(124,108,255,.08);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 22px;
-}
-
-.business-analysis-container h2 {
-  font-size: clamp(38px, 6vw, 68px);
-  line-height: 1.05;
-  margin: 0;
-  color: var(--text);
-}
-
-.business-analysis-container h2 span {
-  background: linear-gradient(90deg,#7c6cff,#39b8ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.business-analysis-subtitle {
-  max-width: 720px;
-  margin: 25px auto 45px;
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.7;
-}
-
-.business-tools-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 18px;
-  margin-bottom: 40px;
-}
-
-.business-tool-card {
-  padding: 28px 22px;
-  border-radius: 22px;
-  background: rgba(15,17,25,.75);
-  border: 1px solid rgba(255,255,255,.08);
-  text-align: left;
-  transition: .3s ease;
-}
-
-.business-tool-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(124,108,255,.45);
-}
-
-.business-tool-icon {
-  font-size: 30px;
-  margin-bottom: 18px;
-}
-
-.business-tool-card h3 {
-  color: var(--text);
-  margin: 0 0 10px;
-  font-size: 18px;
-}
-
-.business-tool-card p {
-  color: var(--muted);
-  line-height: 1.6;
-  font-size: 14px;
-  margin: 0;
-}
-
-.business-analysis-btn {
-  border: none;
-  padding: 15px 28px;
-  border-radius: 14px;
-  background: linear-gradient(135deg,#7c6cff,#39b8ff);
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 12px 35px rgba(124,108,255,.25);
-  transition: .25s;
-}
-
-.business-analysis-btn:hover {
-  transform: translateY(-3px);
-}
-
-@media (max-width: 850px) {
-  .business-tools-grid {
-    grid-template-columns: repeat(2,1fr);
-  }
-}
-
-@media (max-width: 550px) {
-  .business-tools-grid {
-    grid-template-columns: 1fr;
   }
 
-  .business-analysis-section {
-    padding: 70px 16px;
-  }
+
+  bizData.sales =
+    bizData.sales.filter(
+      s => s.id !== id
+    );
+
+
+  saveBizData();
+
+  renderBizSales();
+  renderBizInventory();
+  renderBizCustomers();
+  renderBizOverview();
+
 }
-</style>
+
+
+function renderBizSales() {
+
+  renderBizSaleItemOptions();
+  renderBizSaleCustomerOptions();
+
+
+  const tbody =
+    document.getElementById(
+      "bizSalesList"
+    );
+
+  if (!tbody) return;
+
+
+  if (bizData.sales.length === 0) {
+
+    tbody.innerHTML =
+      `<tr class="biz-empty-row">
+        <td colspan="6">No sales recorded yet.</td>
+      </tr>`;
+
+    return;
+
+  }
+
+
+  const sorted =
+    [...bizData.sales].sort(
+      (a, b) =>
+        new Date(b.date) - new Date(a.date)
+    );
+
+
+  tbody.innerHTML =
+    sorted.map(sale => {
+
+      const customer =
+        bizData.customers.find(
+          c => c.id === sale.customerId
+        );
+
+      return `
+        <tr>
+          <td>${formatBizDate(sale.date)}</td>
+          <td>${escapeHTML(sale.itemName || "-")}</td>
+          <td>${escapeHTML(customer ? customer.name : "Walk-in")}</td>
+          <td>${sale.qty}</td>
+          <td>${formatMoney(sale.amount)}</td>
+          <td>
+            <button class="biz-del-btn" onclick="deleteSale('${sale.id}')">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================
+   AI PROBLEM FINDER / GROWTH / ACTION PLAN
+===================================== */
+
+function buildBizSummary() {
+
+  const totalRevenue =
+    bizData.revenues.reduce(
+      (sum, r) => sum + Number(r.amount || 0),
+      0
+    ) +
+    bizData.sales.reduce(
+      (sum, s) => sum + Number(s.amount || 0),
+      0
+    );
+
+
+  const totalExpense =
+    bizData.expenses.reduce(
+      (sum, e) => sum + Number(e.amount || 0),
+      0
+    );
+
+
+  const profit =
+    totalRevenue - totalExpense;
+
+
+  const lowStock =
+    bizData.inventory
+      .filter(
+        item =>
+          Number(item.qty) <=
+          Number(item.reorder || 0)
+      )
+      .map(item => item.name);
+
+
+  const topExpenses =
+    [...bizData.expenses]
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 5)
+      .map(e => `${e.desc} (${formatMoney(e.amount)}, ${e.category})`);
+
+
+  const topCustomers =
+    [...bizData.customers]
+      .sort(
+        (a, b) =>
+          (b.totalSpent || 0) -
+          (a.totalSpent || 0)
+      )
+      .slice(0, 5)
+      .map(c => `${c.name} (${formatMoney(c.totalSpent || 0)})`);
+
+
+  return `
+Total Revenue: ${formatMoney(totalRevenue)}
+Total Expenses: ${formatMoney(totalExpense)}
+Net Profit: ${formatMoney(profit)}
+Number of Customers: ${bizData.customers.length}
+Number of Inventory Items: ${bizData.inventory.length}
+Number of Sales Transactions: ${bizData.sales.length}
+Low Stock Items: ${lowStock.length ? lowStock.join(", ") : "None"}
+Top Expense Categories: ${topExpenses.length ? topExpenses.join("; ") : "None recorded"}
+Top Customers By Spend: ${topCustomers.length ? topCustomers.join("; ") : "None recorded"}
+`.trim();
+
+}
+
+
+async function runBizAI(kind) {
+
+  const outputEl =
+    document.getElementById(
+      "bizAIOutput"
+    );
+
+  if (!outputEl) return;
+
+
+  const hasAnyData =
+    bizData.revenues.length ||
+    bizData.expenses.length ||
+    bizData.inventory.length ||
+    bizData.customers.length ||
+    bizData.sales.length;
+
+
+  if (!hasAnyData) {
+
+    outputEl.textContent =
+      "Please add some revenue, expenses, inventory, customers or sales data first, so the AI has something to analyze.";
+
+    return;
+
+  }
+
+
+  outputEl.textContent =
+    "Thinking...";
+
+
+  const summary =
+    buildBizSummary();
+
+
+  let prompt = "";
+
+
+  if (kind === "problems") {
+
+    prompt =
+      `You are a business analyst. Based on this small business's data, identify the top hidden problems affecting sales, profit, inventory, customers, marketing and operations. Be specific and practical.\n\n${summary}`;
+
+  } else if (kind === "growth") {
+
+    prompt =
+      `You are a growth advisor for a small business. Based on this data, suggest specific, practical growth opportunities to increase sales, reduce unnecessary costs and grow the customer base.\n\n${summary}`;
+
+  } else {
+
+    prompt =
+      `You are a business consultant. Based on this small business's data, create a practical action plan split into 7-day, 30-day and 90-day sections.\n\n${summary}`;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              message: prompt
+            })
+        }
+      );
+
+
+    const responseText =
+      await response.text();
+
+
+    let data;
+
+    try {
+
+      data =
+        JSON.parse(responseText);
+
+    } catch {
+
+      throw new Error(
+        "Server returned an invalid response."
+      );
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "AI request failed."
+      );
+
+    }
+
+
+    outputEl.textContent =
+      data.reply ||
+      "No response received.";
+
+
+  } catch (error) {
+
+    console.error(
+      "Business AI error:",
+      error
+    );
+
+    outputEl.textContent =
+      "Could not generate AI insights right now. Please make sure the backend /api/chat endpoint is connected, then try again.";
+
+  }
+
+}
+
+
+/* =====================================
+   EXPORT / CLEAR DATA
+===================================== */
+
+function exportBizData() {
+
+  try {
+
+    const blob =
+      new Blob(
+        [JSON.stringify(bizData, null, 2)],
+        { type: "application/json" }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+    link.download =
+      "xzone-business-data.json";
+
+    link.click();
+
+
+    URL.revokeObjectURL(url);
+
+  } catch (error) {
+
+    console.error(
+      "Export error:",
+      error
+    );
+
+    alert(
+      "Could not export data."
+    );
+
+  }
+
+}
+
+
+function clearBizData() {
+
+  const confirmed =
+    confirm(
+      "This will permanently delete all saved business data from this browser. Continue?"
+    );
+
+  if (!confirmed) return;
+
+
+  bizData = {
+    revenues: [],
+    expenses: [],
+    inventory: [],
+    customers: [],
+    sales: []
+  };
+
+
+  saveBizData();
+
+  renderAllBiz();
+
+}
+
+</script>
 
 </body>
 </html>
